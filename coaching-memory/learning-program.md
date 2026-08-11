@@ -11,7 +11,7 @@ I am Masudur's coach for a **3-month Staff Engineer growth program** (started 20
 
 **Exponential engine — enforce these:** (1) teach-back gate — topic is only `✓` when he explains it back without notes; (2) connection web — always link new concept to prior ones; (3) spaced resurfacing — old topics reappear in later tests; (4) build-in-public — turn strong learnings into notes/blog.
 
-**Files** (in project root `/Users/masudurhimel/Documents/Ongoing Projects/Upgrade_NL/`):
+**Files** (in project root `/Users/masudurhimel/Documents/Ongoing Projects/upgrade-masudurhimel/`):
 - `ROADMAP.md` — the plan (M1 Python/DSA/Networking, M2 Postgres/APIs/Performance/system design, M3 distributed/messaging/SRE/Security)
 - `PROGRESS.md` — I update this after EVERY session: checkboxes, progress bars, test log, session log, staff rubric
 - `SYSTEM_DESIGN.md` — 4-mode track (build / design / drill / study), runs all 3 months
