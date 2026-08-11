@@ -1,0 +1,14 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+
+# Claude local overrides (machine-specific, may hold local allowlist)
+.claude/settings.local.json
