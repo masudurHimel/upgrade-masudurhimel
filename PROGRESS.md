@@ -1,6 +1,6 @@
 # 📊 Progress Tracker
 
-> Updated by Claude after every session. Last updated: **2026-08-01**.
+> Updated by Claude after every session. Last updated: **2026-08-11**.
 > Legend: `[ ]` not started · `[~]` in progress · `[x]` covered · `[✓]` **teach-back passed** (you explained it without notes — the only "real" done)
 
 ## Overall progress
@@ -16,13 +16,15 @@ Artifacts   0/3        Tests passed   0        Teach-back ✓   10
 System design track:  see SYSTEM_DESIGN.md
 ```
 
-**Next up:** M1.10 AsyncIO — event loop, coroutines, tasks. (Review bucket cleared 2026-08-11; no open buckets.)
+**Next up:** M1.10 AsyncIO — finish carry-over (coroutine internals, tasks vs gather, cancellation). ⚠️ Carry-over from 2026-08-11 (M1.10, ~3 cards left).
 
 ---
 
 ## 🪣 Carry-over buckets
 > Per-day, never merged. A day stays partial `[~]` until its bucket is cleared + teach-back passed.
 > Surfaced at every session start.
+
+> **OPEN — 2026-08-11 (M1.10 AsyncIO):** slice 1/? taught (event loop + `await`=pause/resume, concurrent≠parallel). ~3 cards left: coroutine internals (`async def`/`await` vs generator `.send()`), `create_task` vs `gather`, cancellation/timeouts. Must clear for full M1.10 ✓.
 
 > Closed 2026-08-11: 2026-08-11 review bucket (3 items — `@contextmanager` try/finally leak, decorator wrap-vs-run order, `cached_property` instance-dict-wins — all teach-backs passed same session).
 
@@ -47,7 +49,7 @@ System design track:  see SYSTEM_DESIGN.md
 - [✓] M1.7 Decorators
 - [✓] M1.8 Iterators & generators
 - [✓] M1.9 Context managers
-- [ ] M1.10 AsyncIO: event loop, coroutines, tasks
+- [~] M1.10 AsyncIO: event loop, coroutines, tasks
 - [ ] M1.11 Concurrency patterns
 - [ ] M1.12 GIL · threading vs multiprocessing vs async
 - [ ] M1.13 Memory management & GC
@@ -165,6 +167,7 @@ System design track:  see SYSTEM_DESIGN.md
 | 2026-08-06 | M1.9 close — `contextlib` helpers (`suppress`/`closing`/`ExitStack`) + nesting, 2-min | 1 | Learning day 18 (was a review day — deferred, spent on bucket close per carry-over rule). Teach-back: Q1 ✓ (nested exit reverse-order, already-entered A still cleaned when B enter throws). Q2 half → corrected: `closing(x)` is for objects with `.close()` but NO `__enter__/__exit__` (not "finally is annoying"); `with x:` would raise AttributeError. M1.9 FULLY ✓; bucket closed. Day-18 review carried to next session. |
 | 2026-08-11 | Day-19 review (deferred Day-18) — rapid recall M1.5/M1.7/M1.9, 5-min | — | Learning day 19. 1/4 clean. Q1 `__exit__` runs + False propagates/True swallows ✓. Q2 `@contextmanager` no try/finally → PASS (bucketed). Q3 stacking → "LIFO/FIFO" shape but didn't name retry-wraps-first/log_call-runs-first (bucketed). Q4 `cached_property` → got "doesn't recompute" but missed mechanism (instance-dict wins for non-data descriptor) (bucketed). Bucket open (3 items) — must clear before M1.10. |
 | 2026-08-11 | Review bucket clear — teach-backs (Q2/Q3/Q4) | — | Learning day 19. All 3 passed without notes: try/finally-on-yield leak ✓, bottom-wraps/top-runs ✓, cached_property instance-dict-wins ✓. Bucket closed; review debt cleared. M1.10 unlocked. |
+| 2026-08-11 | M1.10 AsyncIO (slice 1/?) — event loop | 1 | Learning day 20 (1-min slice). Coroutine = pausable fn (freeze/resume like generator `yield`); `await`=pause on I/O-wait, loop resumes when wait done; waiter analogy; GoZayaan 5-airline `gather` ~800ms vs 4s. Edge: CPU-bound hogs the one thread. Teach-back ✓ — network-not-CPU, resume-when-wait-over, ~800ms total. Sharpened: **concurrent≠parallel** (one thread, waits overlap not code). Partial `[~]`, bucket open (~3 cards left). |
 
 ---
 
