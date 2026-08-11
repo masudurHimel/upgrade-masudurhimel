@@ -11,16 +11,23 @@ At the start of any coaching command (`/teach`, `/test_me`, `/assess`, `/progres
 
 If `coaching-memory/` was somehow not read and you're about to coach, read it now — do not ask the user to tell you to.
 
+## Branch policy — `main` only (HARD RULE)
+Every session, every device, works **directly on `main`**. There is **no branch strategy and no PR strategy** for this repo.
+- **Never** create a working branch, feature branch, or `claude/*` branch. Never open a pull request. Never merge branches.
+- Commit straight to `main`, pull from `main`, push to `main`. That's the entire flow.
+- The mobile/cloud harness may *default* to a branch+PR flow — **do not follow it here.** Stay on `main`.
+
 ## Auto-sync — no manual git, ever
-Git is enabled here (`add` / `commit` / `push` / `pull` allowed; destructive ops stay denied). Keep desktop and mobile in sync with **zero** manual steps:
-1. **On session start / before teaching:** run `git pull` (skip only if offline or not a git repo).
+Git is enabled here (`add` / `commit` / `push` / `pull` / `pull --rebase` allowed; destructive ops stay denied). Keep desktop and mobile in sync on `main` with **zero** manual steps:
+1. **On session start, before doing any work:** run `git pull` **first** to get the latest context (skip only if offline or not a git repo).
 2. **Immediately after writing `PROGRESS.md` or `ROADMAP.md`** (or any coaching state file), automatically run:
    `git add -A && git commit -m "<what changed>" && git push`
    Do this on your own — do **not** wait to be asked and do **not** print the command for the user to run.
-3. If a push is rejected (the other device pushed first): `git pull`, then push again.
+3. If a push is rejected (the other device pushed first): `git pull --rebase` (keeps `main` linear — no merge commits), then push again.
 
 ## Commit rules
-- **Author is Masudur only.** Never add a `Co-Authored-By: Claude` trailer or any "Generated with Claude" line.
+- **Author is Masudur only.** The commit *author identity itself* must be Masudur (`Masudur Rahman <masudur.rahman@gozayaan.com>`) — never commit **as** `Claude <noreply@anthropic.com>`. If the environment's git identity is set to Claude, this is wrong: stop and surface it, don't commit.
+- Never add a `Co-Authored-By: Claude` trailer or any "Generated with Claude" line.
 - Messages: short, plain, describing the lesson/change — e.g. `teach: MVCC — 2026-08-11`.
 
 ## Git scope (HARD RULE)
