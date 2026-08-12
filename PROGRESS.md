@@ -16,7 +16,7 @@ Artifacts   0/3        Tests passed   0        Teach-back ✓   10
 System design track:  see SYSTEM_DESIGN.md
 ```
 
-**Next up:** M1.10 AsyncIO — finish carry-over (`create_task` vs `gather`, then cancellation/timeouts). ⚠️ Carry-over from 2026-08-11 (M1.10, ~2 cards left).
+**Next up:** M1.10 AsyncIO — finish carry-over (cancellation/timeouts). ⚠️ Carry-over from 2026-08-11 (M1.10, 1 card left).
 
 ---
 
@@ -24,7 +24,7 @@ System design track:  see SYSTEM_DESIGN.md
 > Per-day, never merged. A day stays partial `[~]` until its bucket is cleared + teach-back passed.
 > Surfaced at every session start.
 
-> **OPEN — 2026-08-11 (M1.10 AsyncIO):** slices 1–2 taught (event loop + `await`=pause/resume, concurrent≠parallel; coroutine internals = generator freeze/resume, `await`≈`yield`, loop-resume≈`.send()`). ~2 cards left: `create_task` vs `gather`, cancellation/timeouts. Must clear for full M1.10 ✓.
+> **OPEN — 2026-08-11 (M1.10 AsyncIO):** slices 1–3 taught (event loop + `await`=pause/resume, concurrent≠parallel; coroutine internals = generator freeze/resume, `await`≈`yield`, loop-resume≈`.send()`; `create_task` vs `gather` — schedule-one-in-bg-handle vs fire-all-wait-all, ~800ms≈slowest call). **1 card left: cancellation/timeouts.** Must clear for full M1.10 ✓.
 
 > Closed 2026-08-11: 2026-08-11 review bucket (3 items — `@contextmanager` try/finally leak, decorator wrap-vs-run order, `cached_property` instance-dict-wins — all teach-backs passed same session).
 
@@ -169,6 +169,7 @@ System design track:  see SYSTEM_DESIGN.md
 | 2026-08-11 | Review bucket clear — teach-backs (Q2/Q3/Q4) | — | Learning day 19. All 3 passed without notes: try/finally-on-yield leak ✓, bottom-wraps/top-runs ✓, cached_property instance-dict-wins ✓. Bucket closed; review debt cleared. M1.10 unlocked. |
 | 2026-08-11 | M1.10 AsyncIO (slice 1/?) — event loop | 1 | Learning day 20 (1-min slice). Coroutine = pausable fn (freeze/resume like generator `yield`); `await`=pause on I/O-wait, loop resumes when wait done; waiter analogy; GoZayaan 5-airline `gather` ~800ms vs 4s. Edge: CPU-bound hogs the one thread. Teach-back ✓ — network-not-CPU, resume-when-wait-over, ~800ms total. Sharpened: **concurrent≠parallel** (one thread, waits overlap not code). Partial `[~]`, bucket open (~3 cards left). |
 | 2026-08-11 | M1.10 AsyncIO (slice 2/?) — coroutine internals | 1 | Learning day 21 (1-min slice). Coroutine = the generator freeze/resume machine with nicer words: `async def`="can pause", `await`=the pause point (≈`yield`), event loop=who resumes (≈`.send()`). Microwave-pause + GoZayaan `get_fare` `await http.get` example. Edge: `await` only helps if the awaited thing yields control (I/O); CPU loop still blocks. Teach-back ✓ — frozen at await, loop works elsewhere, resumes where paused when wait over. Sharpened: the *awaited future* signals ready (fn is passive), not the fn announcing itself. Ties M1.8 `yield`/`.send()`. Bucket: ~2 cards left. |
+| 2026-08-12 | M1.10 AsyncIO (slice 3/?) — `create_task` vs `gather` | 1 | Learning day 22 (2-min slice). `gather` = fire-all + wait-all → results list (~800ms). `create_task` = start one coroutine in bg now, get a handle, keep working, `await` later. Calling `get_fare()` runs nothing (coroutine obj, M1.8 tie); `create_task`/`gather` schedule it on the loop. Waiter-orders vs kitchen-buzzer analogy; 5-airline example. Edge: un-awaited task → "destroyed but pending" + swallowed exception. Teach-back ✓ both — plain call returns coroutine obj/runs nothing vs create_task schedules-now→concurrent; gather overlaps 5 waits vs 4s sequential. Sharpened: ~800ms ≈ the *slowest single call* (waits happen at the same time, not summed). Bucket: 1 card left (cancellation/timeouts). |
 
 ---
 
