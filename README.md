@@ -1,14 +1,5 @@
 # upgrade-masudurhimel
 
-A personal, coached **Staff Engineer growth program** — a place to *revise the basics* and *sharpen the edge cases* that separate a strong senior from a staff-level engineer.
-
-> **Owner:** Masudur Rahman — Senior Backend / Platform Engineer @ GoZayaan
-> **Goal:** Senior → **Staff-level Platform & Backend Architect**
-> **Coach:** Claude (Claude Code) — teaches daily, tracks progress, runs tests, reviews against a staff rubric.
-> **Timeline:** started 2026-06-19 · capstone checkpoint ~2026-09-19 (~70 topics over ~14 weeks).
-
----
-
 ## What this repo is
 
 This isn't a code project — it's a **living study system**. It exists to turn *recognition* ("yeah, I've heard of MVCC") into *ability* ("I can explain it, defend the tradeoff, and design around it"). The whole thing runs on desktop **and** mobile: `claude.ai/code` cloud sessions clone this repo, read the coaching context, and pick up exactly where the last session left off.
