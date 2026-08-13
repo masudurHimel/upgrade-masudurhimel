@@ -1,22 +1,22 @@
 # 📊 Progress Tracker
 
-> Updated by Claude after every session. Last updated: **2026-08-11**.
+> Updated by Claude after every session. Last updated: **2026-08-13**.
 > Legend: `[ ]` not started · `[~]` in progress · `[x]` covered · `[✓]` **teach-back passed** (you explained it without notes — the only "real" done)
 
 ## Overall progress
 
 ```
-Month 1  [█████████░░░░░░░░░░░]  43%   (10/23 topics)
+Month 1  [██████████░░░░░░░░░░]  48%   (11/23 topics)
 Month 2  [░░░░░░░░░░░░░░░░░░░░]   0%   (0/24 topics)
 Month 3  [░░░░░░░░░░░░░░░░░░░░]   0%   (0/24 topics)
 ─────────────────────────────────────────────────
-TOTAL    [███░░░░░░░░░░░░░░░░░]  14%   (10/71 topics)
+TOTAL    [███░░░░░░░░░░░░░░░░░]  15%   (11/71 topics)
 
-Artifacts   0/3        Tests passed   0        Teach-back ✓   10
+Artifacts   0/3        Tests passed   0        Teach-back ✓   11
 System design track:  see SYSTEM_DESIGN.md
 ```
 
-**Next up:** M1.10 AsyncIO — finish carry-over (cancellation/timeouts). ⚠️ Carry-over from 2026-08-11 (M1.10, 1 card left).
+**Next up:** M1.11 Concurrency patterns. ✅ No open carry-over.
 
 ---
 
@@ -24,7 +24,7 @@ System design track:  see SYSTEM_DESIGN.md
 > Per-day, never merged. A day stays partial `[~]` until its bucket is cleared + teach-back passed.
 > Surfaced at every session start.
 
-> **OPEN — 2026-08-11 (M1.10 AsyncIO):** slices 1–3 taught (event loop + `await`=pause/resume, concurrent≠parallel; coroutine internals = generator freeze/resume, `await`≈`yield`, loop-resume≈`.send()`; `create_task` vs `gather` — schedule-one-in-bg-handle vs fire-all-wait-all, ~800ms≈slowest call). **1 card left: cancellation/timeouts.** Must clear for full M1.10 ✓.
+> Closed 2026-08-13: M1.10 AsyncIO — final card (cancellation/timeouts) teach-back passed → M1.10 FULLY ✓. Loop throws `CancelledError` into the task at its `await` pause point (same throw-into-yield trick, so try/finally cleanup runs); `asyncio.timeout` = automatic cancel when the budget expires; never silently swallow `CancelledError` (catch only to clean up, then re-raise).
 
 > Closed 2026-08-11: 2026-08-11 review bucket (3 items — `@contextmanager` try/finally leak, decorator wrap-vs-run order, `cached_property` instance-dict-wins — all teach-backs passed same session).
 
@@ -49,7 +49,7 @@ System design track:  see SYSTEM_DESIGN.md
 - [✓] M1.7 Decorators
 - [✓] M1.8 Iterators & generators
 - [✓] M1.9 Context managers
-- [~] M1.10 AsyncIO: event loop, coroutines, tasks
+- [✓] M1.10 AsyncIO: event loop, coroutines, tasks
 - [ ] M1.11 Concurrency patterns
 - [ ] M1.12 GIL · threading vs multiprocessing vs async
 - [ ] M1.13 Memory management & GC
@@ -170,6 +170,7 @@ System design track:  see SYSTEM_DESIGN.md
 | 2026-08-11 | M1.10 AsyncIO (slice 1/?) — event loop | 1 | Learning day 20 (1-min slice). Coroutine = pausable fn (freeze/resume like generator `yield`); `await`=pause on I/O-wait, loop resumes when wait done; waiter analogy; GoZayaan 5-airline `gather` ~800ms vs 4s. Edge: CPU-bound hogs the one thread. Teach-back ✓ — network-not-CPU, resume-when-wait-over, ~800ms total. Sharpened: **concurrent≠parallel** (one thread, waits overlap not code). Partial `[~]`, bucket open (~3 cards left). |
 | 2026-08-11 | M1.10 AsyncIO (slice 2/?) — coroutine internals | 1 | Learning day 21 (1-min slice). Coroutine = the generator freeze/resume machine with nicer words: `async def`="can pause", `await`=the pause point (≈`yield`), event loop=who resumes (≈`.send()`). Microwave-pause + GoZayaan `get_fare` `await http.get` example. Edge: `await` only helps if the awaited thing yields control (I/O); CPU loop still blocks. Teach-back ✓ — frozen at await, loop works elsewhere, resumes where paused when wait over. Sharpened: the *awaited future* signals ready (fn is passive), not the fn announcing itself. Ties M1.8 `yield`/`.send()`. Bucket: ~2 cards left. |
 | 2026-08-12 | M1.10 AsyncIO (slice 3/?) — `create_task` vs `gather` | 1 | Learning day 22 (2-min slice). `gather` = fire-all + wait-all → results list (~800ms). `create_task` = start one coroutine in bg now, get a handle, keep working, `await` later. Calling `get_fare()` runs nothing (coroutine obj, M1.8 tie); `create_task`/`gather` schedule it on the loop. Waiter-orders vs kitchen-buzzer analogy; 5-airline example. Edge: un-awaited task → "destroyed but pending" + swallowed exception. Teach-back ✓ both — plain call returns coroutine obj/runs nothing vs create_task schedules-now→concurrent; gather overlaps 5 waits vs 4s sequential. Sharpened: ~800ms ≈ the *slowest single call* (waits happen at the same time, not summed). Bucket: 1 card left (cancellation/timeouts). |
+| 2026-08-13 | M1.10 AsyncIO close — cancellation & timeouts, 2-min slice | 1 | Learning day 23. `task.cancel()` → loop waits till task is paused at an `await`, then throws `CancelledError` **into** it at that point (same throw-into-yield trick as `@contextmanager` M1.8 → try/finally cleanup still runs). `asyncio.timeout(n)` = automatic cancel when budget expires → `TimeoutError`. GoZayaan: timeout the 5-airline `gather` so one slow carrier can't hang search. Edge/trap: never `except CancelledError: pass` — not a normal error, swallowing hangs the loop; catch only to clean up, then re-raise. Staff lens: every outbound call needs a timeout (slow-dependency incidents). Teach-back ✓ both — throws-at-await-pause; timeout=auto-cancel + must re-raise. Sharpened: loop *throws into* the task (ties M1.8 `.throw()`). **M1.10 FULLY ✓; bucket closed.** Day-23 no review (every-3rd-learning-day rule → next review at day 24). |
 
 ---
 
