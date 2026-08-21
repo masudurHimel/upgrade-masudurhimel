@@ -28,26 +28,42 @@ Progress is only "real" when you can **explain it back without notes** (the teac
 
 | You say | The coach does |
 |---|---|
-| `teach me` / `/teach` | Serve the next lesson in sequence |
+| `teach me` / `/teach` | Serve the next lesson in sequence (default path) |
 | `/teach <topic>` | Jump to a topic (and add it to the roadmap if new) |
 | `/teach 10 mins` | Size the lesson to your time budget |
-| `/progress` (`where am I?`) | Progress bars + what's next |
-| `/test_me` (`/test_me M2`) | Checkpoint quiz — applied scenarios, plus spaced resurfacing |
-| `/assess` (`review me`) | Evaluate an explanation/artifact against the staff rubric |
+| `/teach <path> [10 mins]` | Serve the next lesson in a **parallel path** (e.g. `/teach ai-eng 15 mins`) |
+| `/teach <path> <topic>` | Jump to a topic inside a specific path |
+| `/create_path [name]` | Stand up a new parallel path — full intake, then generates it |
+| `/progress` (`where am I?`) | Progress bars + what's next · `/progress <path>` · `/progress all` |
+| `/test_me` (`/test_me M2`) | Checkpoint quiz — applied scenarios, plus spaced resurfacing · `/test_me <path>` |
+| `/assess` (`review me`) | Evaluate an explanation/artifact against the path's rubric · `/assess <path>` |
 | `add <topic>` / `drop <topic>` | Re-shape the roadmap |
 
 ## Repo layout
 
 | File / dir | What it holds |
 |---|---|
-| **[ROADMAP.md](ROADMAP.md)** | The 3-month plan — all ~70 topics across M1/M2/M3, artifacts, "prove it at work" hooks |
-| **[PROGRESS.md](PROGRESS.md)** | Living tracker — progress bars, checklists, test scores, carry-over buckets, session log |
-| **[SYSTEM_DESIGN.md](SYSTEM_DESIGN.md)** | The 4-mode system design track (build / design / drill / study) |
-| **[SOFT_SKILLS.md](SOFT_SKILLS.md)** | Curated leadership & influence resources |
+| **[paths/index.md](paths/index.md)** | The **path registry** — every learning path, its status, and what's next in it |
+| **[paths/default/ROADMAP.md](paths/default/ROADMAP.md)** | The 3-month plan — all ~70 topics across M1/M2/M3, artifacts, "prove it at work" hooks |
+| **[paths/default/PROGRESS.md](paths/default/PROGRESS.md)** | Living tracker — progress bars, checklists, test scores, carry-over buckets, session log |
+| **[paths/default/SYSTEM_DESIGN.md](paths/default/SYSTEM_DESIGN.md)** | The 4-mode system design track (build / design / drill / study) |
+| **[paths/default/SOFT_SKILLS.md](paths/default/SOFT_SKILLS.md)** | Curated leadership & influence resources |
+| **paths/&lt;slug&gt;/** | Any other path — same two files, fully independent state |
 | **[MEMORY.md](MEMORY.md)** | Canonical project memory read at the start of every session |
 | **[coaching-memory/](coaching-memory/)** | Portable mirror of *how* to coach — travels to mobile/cloud where `~/.claude` memory can't |
 | **[CLAUDE.md](CLAUDE.md)** | Rules for the coach (context loading, `main`-only git, auto-sync) |
-| **.claude/skills/** | The `teach` · `progress` · `test_me` · `assess` skills that power the commands |
+| **.claude/skills/** | The `teach` · `progress` · `test_me` · `assess` · `create_path` skills that power the commands |
+
+## Parallel learning paths
+
+The program isn't one curriculum — it's a **default path plus any number of parallel ones**.
+
+- **`default`** is the 3-month Staff Engineer program. Bare `/teach`, `/progress`, `/test_me`, `/assess` resolve here.
+- **Specialized paths** (`/create_path`) run alongside it on the **same engine** — cards, teach-back gate, per-day carry-over buckets, review every 3rd learning day, tests, rubric — but with **fully independent state**. Each path counts its own learning days and keeps its own buckets, so an unfinished topic in one path never blocks a session in another.
+- Each path gets its **own rubric**: `default` uses the 7 staff competencies; a specialized path gets 4–6 competencies drafted for its domain at creation.
+- `/create_path` runs an end-to-end intake — outcome, domain, depth, size, cadence, artifacts, prereqs, then a cluster review gate and a rubric baseline — and only then writes the path.
+
+See [paths/index.md](paths/index.md) for the live registry.
 
 ## The three months at a glance
 
@@ -55,7 +71,7 @@ Progress is only "real" when you can **explain it back without notes** (the teac
 - **Month 2 — Data, APIs & Performance:** Postgres internals, API design, performance engineering, system design core. *Artifact: a real slow-query fix + a design doc/RFC.*
 - **Month 3 — Distributed, Messaging, SRE & Security:** consensus, reliability patterns, Kafka/RabbitMQ, observability, auth & OWASP. *Artifact: outbox pattern / leader election / event-driven design.*
 
-At the 2026-09-19 checkpoint: a mixed capstone test, artifact review, and a rubric re-score — then **Phase 2** is written around actual performance. See [ROADMAP.md](ROADMAP.md) for the full topic list.
+At the 2026-09-19 checkpoint: a mixed capstone test, artifact review, and a rubric re-score — then **Phase 2** is written around actual performance. See [paths/default/ROADMAP.md](paths/default/ROADMAP.md) for the full topic list.
 
 ## Working on this repo
 
