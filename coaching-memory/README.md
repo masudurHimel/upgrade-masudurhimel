@@ -6,7 +6,7 @@ Portable mirror of the `/teach` program's coaching context.
 
 **Source of truth:** on desktop, the `~/.claude` auto-memory is still authoritative. These files are a mirror — if you edit coaching behavior, update both, or treat this folder as canonical when working from mobile. The hard program **state** lives in `paths/` (see below).
 
-**Program state** (`paths/index.md` + `paths/<slug>/PROGRESS.md` / `ROADMAP.md`) is always canonical and in-repo.
+**Program state** (`PATHS.md` + `paths/<slug>/PROGRESS.md` / `ROADMAP.md`) is always canonical and in-repo.
 
 Files:
 - `learning-paths.md` — the multi-path system: registry, path resolution, full independence

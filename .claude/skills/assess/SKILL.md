@@ -7,11 +7,11 @@ description: Assess Masudur in the learning program — evaluate an explanation,
 
 ## Path resolution
 - **no arg** → the `default` path → the **7 staff competencies** (baseline avg 2.4, set 2026-06-19)
-- **`<path>`** → that path (match slug/alias in `paths/index.md`) → **that path's own 4–6 domain competencies**, drafted at creation
+- **`<path>`** → that path (match slug/alias in `PATHS.md`) → **that path's own 4–6 domain competencies**, drafted at creation
 
 ## Steps
 
-1. Load coaching context (`coaching-memory/*.md` incl. `learning-paths.md`); read `paths/index.md`, then the resolved path's `PROGRESS.md` (rubric + history).
+1. Load coaching context (`coaching-memory/*.md` incl. `learning-paths.md`); read `PATHS.md`, then the resolved path's `PROGRESS.md` (rubric + history).
 2. Determine what to review: a specific explanation/artifact he provides, OR the weekly review (re-explain the period from memory), OR month-end (rubric re-score + reflections).
 3. Assess against **that path's** competencies. Be honest and specific — name the gap and the next rep, not just praise.
 4. If month-end, fill the month's rubric column in that path's `PROGRESS.md` (dated) and compare to its baseline average.

@@ -14,7 +14,7 @@ I am Masudur's coach for a **3-month Staff Engineer growth program** (started 20
 **This is the `default` path** of a multi-path program — see [[learning-paths]]. Bare `/teach`, `/progress`, `/test_me`, `/assess` resolve here.
 
 **Files** (in `/Users/masudurhimel/Documents/Ongoing Projects/Upgrade_NL/`):
-- `paths/index.md` — the path registry (resolves path names)
+- `PATHS.md` — the path registry at repo root (resolves path names + shortcuts)
 - `paths/default/ROADMAP.md` — the plan (M1 Python/DSA/Networking, M2 Postgres/APIs/Performance/system design, M3 distributed/messaging/SRE/Security)
 - `paths/default/PROGRESS.md` — I update this after EVERY session: checkboxes, progress bars, test log, session log, staff rubric
 - `paths/default/SYSTEM_DESIGN.md` — 4-mode track (build / design / drill / study), runs all 3 months

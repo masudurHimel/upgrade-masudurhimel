@@ -35,7 +35,7 @@ I am Masudur's coach for a **3-month Staff Engineer growth program** (started 20
 4. **Build-in-public** — turn strong learnings into notes/blog.
 
 **Project files:**
-- `paths/index.md` — the **path registry** (name resolver; one row per learning path)
+- `PATHS.md` — the **path registry** (name resolver; one row per learning path)
 - `paths/default/ROADMAP.md` — the plan (M1 Python/DSA/Networking, M2 Postgres/APIs/Performance/system design, M3 distributed/messaging/SRE/Security)
 - `paths/default/PROGRESS.md` — update after EVERY session: checkboxes, progress bars, test log, session log, staff rubric
 - `paths/default/SYSTEM_DESIGN.md` — 4-mode track (build / design / drill / study), runs all 3 months
@@ -56,6 +56,8 @@ I am Masudur's coach for a **3-month Staff Engineer growth program** (started 20
 
 The program runs **multiple parallel paths** under `paths/`. `default` = the 3-month Staff Engineer program and **the default path** (bare `/teach`, `/progress`, `/test_me`, `/assess` resolve there). Specialized paths are created with **`/create_path`** and run on the same engine with **fully independent state** — own learning-day counter, own review cadence, own carry-over buckets. A bucket open in one path **never** blocks a session in another. Each path has its own rubric (`default` = the 7 staff competencies; others get 4–6 domain competencies).
 
-**Resolution:** strip the duration token → match the arg against slugs/aliases in `paths/index.md` → match = path session, no match = **topic on `default`** (pre-existing behavior). Creating a path is never implicit.
+**Commands:** each path gets a generated **`/teach-<slug>`** command (path pinned, duration/topic args only). Every other skill takes the shortcut as an argument — `/progress be`, `/test_me be`, `/assess be`. `/progress all` rolls up every path.
+
+**Resolution:** strip the duration token → match the arg against slugs/aliases in `PATHS.md` → match = path session, no match = **topic on `default`** (pre-existing behavior). Creating a path is never implicit.
 
 Full mechanism: `coaching-memory/learning-paths.md`.

@@ -1,6 +1,6 @@
 ---
 name: create_path
-description: Create a new parallel learning path for Masudur — a separate specialized curriculum (AI engineering, Kubernetes, advanced Kafka, …) that runs alongside the default Staff Engineer program on the same engine. Runs an end-to-end intake (outcome, domain, depth, size, cadence, artifacts, prereqs, clusters, rubric), then generates paths/<slug>/ROADMAP.md + PROGRESS.md and registers it. Use when he says "create a learning path", "new path", "I want a separate track on X", or /create_path.
+description: Create a new parallel learning path for Masudur — a separate specialized curriculum (AI engineering, Kubernetes, advanced Kafka, …) that runs alongside the default Staff Engineer program on the same engine. Runs an end-to-end intake (outcome, domain, depth, size, cadence, artifacts, prereqs, clusters, rubric), then generates paths/<slug>/ROADMAP.md + PROGRESS.md, a dedicated /teach-<slug> command, and registers it in root PATHS.md. Use when he says "create a learning path", "new path", "I want a separate track on X", or /create_path.
 ---
 
 # /create_path — stand up a new learning path
@@ -11,7 +11,7 @@ Builds a new path under `paths/<slug>/` that runs the **same engine** as `defaul
 
 1. `git pull` (skip only if offline / not a repo).
 2. Read `coaching-memory/*.md` — **all of them**, including `learning-paths.md`. On desktop the same facts may exist as `~/.claude` auto-memory; do not rely on it.
-3. Read `paths/index.md` for existing slugs, aliases, and reserved words.
+3. Read `PATHS.md` for existing slugs, aliases, and reserved words.
 
 Arg handling: `/create_path <name>` pre-fills the name; `/create_path` with no arg asks for it.
 
@@ -49,7 +49,7 @@ Only now write files.
    - `🧭 Prove it at work:` hook per cluster-block
    - checkpoint section + a Phase-2 backlog for the domain
 3. **`paths/<slug>/PROGRESS.md`** — the full template, in this order:
-   1. **Header** — path name, slug, created date (today), checkpoint, status `active`, session default, `Review cadence: every 3rd learning day *of this path*`, links to `ROADMAP.md` + `../index.md`
+   1. **Header** — path name, slug, created date (today), checkpoint, status `active`, session default, `Review cadence: every 3rd learning day *of this path*`, links to `ROADMAP.md` + `../../PATHS.md`
    2. **Overall progress** — per-cluster ASCII bars + total, all at 0%, same style as `default`
    3. **Counters** — `Artifacts 0/N` (or `—` if none) · `Tests passed 0` · `Teach-back ✓ 0`
    4. **Next up** — first topic; note that the first session is learning day 1
@@ -58,13 +58,19 @@ Only now write files.
    7. **Test log** — empty table
    8. **Session log** — empty table
    9. **Path rubric** — the 4–6 competencies × baseline + monthly columns, with the dated baseline average noted below it
-4. **Register** — add the row + aliases to `paths/index.md` (`Topics ✓ 0/N`, `Learning days 0`, `Next up` = first topic, `Last session —`). Do not touch the `DEFAULT` marker.
+4. **`.claude/skills/teach-<slug>/SKILL.md`** — the path's own teach command, so `/teach-<slug>` exists as a first-class slash command. Thin wrapper, not a copy:
+   - frontmatter `name: teach-<slug>`, and a `description` naming the path + its clusters so the command is discoverable
+   - **path is pinned to `<slug>` — do NOT run path resolution**
+   - args are **duration and/or topic only** (`/teach-<slug> 15 mins`, `/teach-<slug> <topic>`); a path name in the args is ignored, not re-resolved
+   - body: "follow `.claude/skills/teach/SKILL.md` Steps 1–6 verbatim with `<slug>` as the resolved path", then restate the per-path specifics — day counting from that path's own session log, its own buckets, the `teach(<slug>):` commit prefix, and that no other path's bucket may block or be mentioned
+   - **only `teach` gets a per-path command.** `progress` / `test_me` / `assess` keep taking the shortcut as an argument (`/progress <slug>`).
+5. **Register** — add the row + aliases to `PATHS.md` (`Topics ✓ 0/N`, `Learning days 0`, `Next up` = first topic, `Last session —`). Do not touch the `DEFAULT` marker.
 
 ## Step 4 — sync + hand off
 
 1. `git add -A && git commit -m "path: create <slug>" && git push` — automatically, no manual step. Masudur-only author, no Claude co-author trailer. If push is rejected: `git pull --rebase`, then push again. See root `CLAUDE.md` §Auto-sync.
 2. Print a compact summary: slug, aliases, topic count, clusters, cadence, artifacts, rubric baseline avg.
-3. End with the exact next command: **`/teach <slug> <duration>`**.
+3. End with the exact next command: **`/teach-<slug> <duration>`** (the dedicated command generated in Step 3.4).
 
 ## Guardrails
 

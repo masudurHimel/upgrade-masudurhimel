@@ -3,7 +3,7 @@
 > **Path:** `default` — Staff Engineer (3-month) · **the DEFAULT path** (bare `/teach` resolves here)
 > **Created:** 2026-06-19 · **Checkpoint:** 2026-09-19 · **Status:** active
 > **Session default:** 2–5 min · **Review cadence:** every 3rd learning day *of this path*
-> **Plan:** [ROADMAP.md](ROADMAP.md) · **Tracks:** [SYSTEM_DESIGN.md](SYSTEM_DESIGN.md) · [SOFT_SKILLS.md](SOFT_SKILLS.md) · **Registry:** [../index.md](../index.md)
+> **Plan:** [ROADMAP.md](ROADMAP.md) · **Tracks:** [SYSTEM_DESIGN.md](SYSTEM_DESIGN.md) · [SOFT_SKILLS.md](SOFT_SKILLS.md) · **Registry:** [../../PATHS.md](../../PATHS.md)
 
 > Updated by Claude after every session. Last updated: **2026-08-22**.
 > Legend: `[ ]` not started · `[~]` in progress · `[x]` covered · `[✓]` **teach-back passed** (you explained it without notes — the only "real" done)

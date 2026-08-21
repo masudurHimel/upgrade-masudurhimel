@@ -31,7 +31,8 @@ Progress is only "real" when you can **explain it back without notes** (the teac
 | `teach me` / `/teach` | Serve the next lesson in sequence (default path) |
 | `/teach <topic>` | Jump to a topic (and add it to the roadmap if new) |
 | `/teach 10 mins` | Size the lesson to your time budget |
-| `/teach <path> [10 mins]` | Serve the next lesson in a **parallel path** (e.g. `/teach ai-eng 15 mins`) |
+| `/teach-<path>` | Serve the next lesson in a **parallel path** — every path gets its own command (e.g. `/teach-be 15 mins`) |
+| `/teach <path> [10 mins]` | Same thing via the generic command (e.g. `/teach be 15 mins`) |
 | `/teach <path> <topic>` | Jump to a topic inside a specific path |
 | `/create_path [name]` | Stand up a new parallel path — full intake, then generates it |
 | `/progress` (`where am I?`) | Progress bars + what's next · `/progress <path>` · `/progress all` |
@@ -43,7 +44,7 @@ Progress is only "real" when you can **explain it back without notes** (the teac
 
 | File / dir | What it holds |
 |---|---|
-| **[paths/index.md](paths/index.md)** | The **path registry** — every learning path, its status, and what's next in it |
+| **[PATHS.md](PATHS.md)** | The **path registry** at repo root — every learning path, its teach command, status, and what's next |
 | **[paths/default/ROADMAP.md](paths/default/ROADMAP.md)** | The 3-month plan — all ~70 topics across M1/M2/M3, artifacts, "prove it at work" hooks |
 | **[paths/default/PROGRESS.md](paths/default/PROGRESS.md)** | Living tracker — progress bars, checklists, test scores, carry-over buckets, session log |
 | **[paths/default/SYSTEM_DESIGN.md](paths/default/SYSTEM_DESIGN.md)** | The 4-mode system design track (build / design / drill / study) |
@@ -63,7 +64,7 @@ The program isn't one curriculum — it's a **default path plus any number of pa
 - Each path gets its **own rubric**: `default` uses the 7 staff competencies; a specialized path gets 4–6 competencies drafted for its domain at creation.
 - `/create_path` runs an end-to-end intake — outcome, domain, depth, size, cadence, artifacts, prereqs, then a cluster review gate and a rubric baseline — and only then writes the path.
 
-See [paths/index.md](paths/index.md) for the live registry.
+See [PATHS.md](PATHS.md) for the live registry.
 
 ## The three months at a glance
 

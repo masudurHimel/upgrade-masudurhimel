@@ -1,6 +1,6 @@
 # 🚀 3-Month Staff Engineer Roadmap (Revised)
 
-> **Path:** `default` — **the DEFAULT path** (bare `/teach` resolves here) · registry: [../index.md](../index.md)
+> **Path:** `default` — **the DEFAULT path** (bare `/teach` resolves here) · registry: [../../PATHS.md](../../PATHS.md)
 > **Owner:** Masudur Rahman — Senior Backend / Platform Engineer @ GoZayaan
 > **Goal:** Senior → **Staff-level Platform & Backend Architect**
 > **Start date:** 2026-06-19 · **Target review date:** 2026-09-19

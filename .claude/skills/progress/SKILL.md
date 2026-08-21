@@ -7,12 +7,12 @@ description: Show Masudur's progress in the learning program — progress bars, 
 
 ## Path resolution
 - **no arg** → the `default` path
-- **`<path>`** → that path (match slug/alias in `paths/index.md`, case-insensitive, ignoring `-` `_` spaces)
+- **`<path>`** → that path (match slug/alias in `PATHS.md`, case-insensitive, ignoring `-` `_` spaces)
 - **`all`** → roll-up of every path
 
 ## Steps
 
-1. Read `paths/index.md`, then the resolved path's `paths/<slug>/PROGRESS.md`.
+1. Read `PATHS.md`, then the resolved path's `paths/<slug>/PROGRESS.md`.
 2. Show: the progress bars (per cluster + total), artifacts/tests/teach-back counters, rubric baseline, open **carry-over buckets**, and **Next up**.
 3. Note whether today is a learning / review / test day — counting learning days from **that path's own session log** (every 3rd learning day of this path = review).
 
