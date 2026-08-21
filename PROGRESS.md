@@ -1,6 +1,6 @@
 # 📊 Progress Tracker
 
-> Updated by Claude after every session. Last updated: **2026-08-16**.
+> Updated by Claude after every session. Last updated: **2026-08-22**.
 > Legend: `[ ]` not started · `[~]` in progress · `[x]` covered · `[✓]` **teach-back passed** (you explained it without notes — the only "real" done)
 
 ## Overall progress
@@ -16,7 +16,7 @@ Artifacts   0/3        Tests passed   0        Teach-back ✓   11
 System design track:  see SYSTEM_DESIGN.md
 ```
 
-**Next up:** M1.11 slice 3 — `as_completed` / partial failures (`gather(return_exceptions=True)`), then blocking-call offload (`to_thread`). Next review: learning day 27.
+**Next up:** M1.11 final slice — blocking-call offload (`asyncio.to_thread`) → closes M1.11. Next session is a **review day** (learning day 27).
 
 ---
 
@@ -24,7 +24,7 @@ System design track:  see SYSTEM_DESIGN.md
 > Per-day, never merged. A day stays partial `[~]` until its bucket is cleared + teach-back passed.
 > Surfaced at every session start.
 
-> OPEN — M1.11 Concurrency patterns (partial `[~]`). Slice 1 ✓ (`Semaphore` bounded concurrency, 2026-08-14), slice 2 ✓ (`asyncio.Queue` worker pool, 2026-08-17). Left: `as_completed` + partial failures (`gather(return_exceptions=True)`); offloading blocking calls (`asyncio.to_thread`).
+> OPEN — M1.11 Concurrency patterns (partial `[~]`). Slice 1 ✓ (`Semaphore` bounded concurrency, 2026-08-14), slice 2 ✓ (`asyncio.Queue` worker pool, 2026-08-17), slice 3 ✓ (partial failures / `gather(return_exceptions=True)` + `as_completed`, 2026-08-22). Left: **1 item** — offloading blocking calls (`asyncio.to_thread`).
 
 > Closed 2026-08-16: Day-24 review bucket (1 item — `__slots__`; teach-back passed same session: named the per-instance `__dict__` disappearing + "no dynamic attribute defining". Sharpened: the cost is the *container* (hash table with spare buckets, paid N times), not "undefined attributes"; and it's a **size** problem — memory freed correctly every time, just too much per object by design — vs a **leak** = memory never freed. Ties M1.8 generator-vs-list: same "stop paying full price per item at scale" instinct.)
 
@@ -181,6 +181,7 @@ System design track:  see SYSTEM_DESIGN.md
 | 2026-08-16 | Review bucket clear — `__slots__` teach-back | — | Passed without notes: per-instance `__dict__` disappears + no dynamic attribute defining. Sharpened: cost = the container (spare-bucket hash table × N instances), not "undefined attributes"; **size ≠ leak** (freed correctly, just too fat per object by design). Bucket closed; review debt cleared. M1.11 slice 2 unlocked. |
 | 2026-08-17 | M1.11 Concurrency patterns (slice 2) — worker pool / `asyncio.Queue` | 1 | Learning day 25 (2-min slice). Queue+N workers = **few tasks, many jobs** (bank: 3 clerks, 1 line) vs Semaphore = **many tasks, few passes**. 5000-booking payment-recheck drain with 10 workers; `queue.get()` → work → `task_done()` in `finally`; `queue.join()` then cancel workers. Edges: missing `task_done` hangs `join`; an exception silently kills a worker (pool shrinks); un-cancelled workers block exit; `maxsize` gives backpressure. Staff lens: Semaphore for small all-results-back fan-out (`gather`), queue for large/open-ended backlogs — the queue also caps **memory**. Teach-back ✓ both — 10 tasks vs 5k, rest queued; missing `task_done`. Sharpened: cost of 5k tasks = live task objects scheduled up front vs cheap *data* in the queue (ties `__slots__`/generators — stop paying per-item overhead at scale); `join()` watches a **counter**, not your calls. Bucket: 2 items left. |
 | 2026-08-13 | M1.10 AsyncIO close — cancellation & timeouts, 2-min slice | 1 | Learning day 23. `task.cancel()` → loop waits till task is paused at an `await`, then throws `CancelledError` **into** it at that point (same throw-into-yield trick as `@contextmanager` M1.8 → try/finally cleanup still runs). `asyncio.timeout(n)` = automatic cancel when budget expires → `TimeoutError`. GoZayaan: timeout the 5-airline `gather` so one slow carrier can't hang search. Edge/trap: never `except CancelledError: pass` — not a normal error, swallowing hangs the loop; catch only to clean up, then re-raise. Staff lens: every outbound call needs a timeout (slow-dependency incidents). Teach-back ✓ both — throws-at-await-pause; timeout=auto-cancel + must re-raise. Sharpened: loop *throws into* the task (ties M1.8 `.throw()`). **M1.10 FULLY ✓; bucket closed.** Day-23 no review (every-3rd-learning-day rule → next review at day 24). |
+| 2026-08-22 | M1.11 Concurrency patterns (slice 3) — partial failures · `gather(return_exceptions=True)` · `as_completed` | 1 | Learning day 26 (2-min slice). Default `gather` raises the FIRST child exception at you and the good results are unreachable (return value never happens; with a genexpr there are no handles) — siblings keep running unwatched → "Task exception was never retrieved". `return_exceptions=True` → failed slot holds the exception object, filter + log + degrade. `as_completed` = finish-order results (fast answer not held hostage by the slowest) but loses which airline it came from → carry identity in the result or a `{task: airline}` map. GoZayaan: airline #3 500s → show 4 fares + "1 carrier unavailable" instead of an error page. Edge/trap: `return_exceptions=True` also captures **`CancelledError`**, which IS the mechanism `asyncio.timeout` uses → cancel never lands, no `TimeoutError`, timeout becomes decoration (clashes with the M1.10 never-swallow-cancel rule). Staff lens: partial degradation > total failure — graceful degradation written at the `await` level. Teach-back ✓ both — exception handed back + 4 keep running with references gone; swallow-everything makes a timeout look like a normal event. Sharpened: it is the *first* exception, and the good results are lost because `gather` never returns at all. Bucket: 1 item left (`to_thread`). |
 
 ---
 
