@@ -25,7 +25,7 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0 topic
 
 **Next up:** BE1.1 cards 2–5 — DNS name→address, opening the socket, what goes on the wire, full chain + edge cases (carry-over from 2026-08-22). Learning day 1 done; **learning day 3 = review day**.
 
-**Pending:** rubric baseline still not set — asked at the end of the 2026-08-22 session, awaiting his five 1–5 scores.
+**Rubric baseline:** set 2026-08-22, **avg 2.6** (coach-estimated at his request — 3/3/2/2/3). Weakest line: capacity & sizing.
 
 ---
 
@@ -118,11 +118,13 @@ Five competencies specific to this path — **not** the 7 staff competencies use
 
 | Competency | What a 5 looks like | Baseline (Aug) | Sep | Oct |
 |------------|---------------------|:---:|:---:|:---:|
-| **Request-path fluency** | Traces any request hop by hop and says what each layer did to it | | | |
-| **Concurrency-model judgment** | Picks process/thread/async/worker model from the workload and defends it | | | |
-| **Capacity & sizing** | Turns traffic numbers into worker/pool/instance counts with math | | | |
-| **Failure-mode reasoning** | Predicts where load or a slow dependency breaks the chain, and why | | | |
-| **Diagnostic instinct** | Given 502s / a p99 spike / pool exhaustion, narrows to the layer fast | | | |
+| **Request-path fluency** | Traces any request hop by hop and says what each layer did to it | 3 | | |
+| **Concurrency-model judgment** | Picks process/thread/async/worker model from the workload and defends it | 3 | | |
+| **Capacity & sizing** | Turns traffic numbers into worker/pool/instance counts with math | 2 | | |
+| **Failure-mode reasoning** | Predicts where load or a slow dependency breaks the chain, and why | 2 | | |
+| **Diagnostic instinct** | Given 502s / a p99 spike / pool exhaustion, narrows to the layer fast | 3 | | |
 
-> **Baseline pending** — to be self-scored at the top of the first session and stamped with the date.
+> **Baseline set 2026-08-22 — coach-estimated at his request** ("fill this what you think best"), not self-scored. Avg **2.6**.
+> Basis: `default`-path asyncio depth (M1.10/M1.11 ✓ — Semaphore, `asyncio.Queue` pool, `gather(return_exceptions=True)`) → concurrency 3; daily nginx/gunicorn/Django operation but no hop-by-hop mechanism → request-path 3; no evidence of capacity math (Little's Law / pool sizing unlearned) → 2; production exposure to failures but no predictive reasoning shown → 2; senior on-call instinct + clean BE1.1 teach-back → diagnostic 3.
+> **Weakest + highest-leverage line: Capacity & sizing (2).** Overridable by his own self-score at any time.
 > The gap between your baseline and 4–5 is the real curriculum inside this path.
