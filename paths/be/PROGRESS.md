@@ -1,7 +1,7 @@
 # 📊 Progress Tracker — Backend Engineering Deep Dive
 
 > **Path:** `be` — teach command **`/teach-be`** · **Status:** active (not the default path)
-> **Created:** 2026-08-22 · **Checkpoint:** ~2026-10-24 · **Last updated:** 2026-08-22
+> **Created:** 2026-08-22 · **Checkpoint:** ~2026-10-24 · **Last updated:** 2026-08-22 (learning day 1)
 > **Session default:** 2–5 min · **Review cadence:** every 3rd learning day *of this path*
 > **Plan:** [ROADMAP.md](ROADMAP.md) · **Registry:** [../../PATHS.md](../../PATHS.md)
 > **Independent state:** this path's counters, buckets, tests, and rubric are its own. `default`'s buckets never block a session here.
@@ -11,7 +11,7 @@
 ## Overall progress
 
 ```
-BE1 Client → request     [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics)
+BE1 Client → request     [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics · BE1.1 [~])
 BE2 Reaching the server  [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics)
 BE3 Accepting the conn   [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics)
 BE4 The framework        [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics)
@@ -23,9 +23,9 @@ TOTAL                    [░░░░░░░░░░░░░░░░░░
 Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0
 ```
 
-**Next up:** BE1.1 — what "making a request" actually means (URL → resolution → socket). First session is **learning day 1** of this path.
+**Next up:** BE1.1 cards 2–5 — DNS name→address, opening the socket, what goes on the wire, full chain + edge cases (carry-over from 2026-08-22). Learning day 1 done; **learning day 3 = review day**.
 
-**Pending:** rubric baseline not yet set — collect the five 1–5 self-scores at the top of the first session and stamp them dated.
+**Pending:** rubric baseline still not set — asked at the end of the 2026-08-22 session, awaiting his five 1–5 scores.
 
 ---
 
@@ -33,12 +33,14 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0
 > Per-day, never merged. A day stays partial `[~]` until its bucket is cleared + teach-back passed.
 > Surfaced at every session start — **this path's buckets only**.
 
-> None open.
+| Date | Topic | Cards left | Status |
+|------|-------|-----------|--------|
+| 2026-08-22 | BE1.1 What "making a request" actually means | 4 — (2) DNS name→address · (3) opening the socket: IP+port, connection object · (4) what actually goes on the wire (request line + headers) · (5) full chain end-to-end + edge cases | **open** |
 
 ---
 
 ## BE1 — The request leaves the client
-- [ ] BE1.1 What "making a request" actually means — URL → resolution → socket
+- [~] BE1.1 What "making a request" actually means — URL → resolution → socket *(card 1/5 taught 2026-08-22; teach-back pending)*
 - [ ] BE1.2 DNS resolution — recursive lookup, caching, TTL
 - [ ] BE1.3 TCP connection setup — 3-way handshake
 - [ ] BE1.4 TLS handshake — what's negotiated, session resumption
@@ -106,7 +108,7 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0
 ## Session log
 | Date | Topics covered | Cards | Notes |
 |------|----------------|-------|-------|
-| — | — | — | No sessions yet |
+| 2026-08-22 | BE1.1 card 1/5 — a URL is four instructions for four layers; network needs only IP + port | 1 | Learning day 1. 2-min box → partial `[~]`, 4 cards parked. Teach-back asked (why the kernel can't use a hostname). Rubric baseline requested. |
 
 ---
 

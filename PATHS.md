@@ -18,7 +18,7 @@
 | Slug | Teach command | Name | Status | Topics ✓ | Learning days | Session default | Next up | Last session |
 |---|---|---|---|---|---|---|---|---|
 | `default` | `/teach` | Staff Engineer (3-month) | **active · DEFAULT** | 11/71 | 26 | 2–5 min | M1.11 final card — offloading blocking calls (`asyncio.to_thread`) | 2026-08-22 |
-| `be` | `/teach-be` | Backend Engineering Deep Dive | active | 0/42 | 0 | 2–5 min | BE1.1 — what "making a request" actually means | — |
+| `be` | `/teach-be` | Backend Engineering Deep Dive | active | 0/42 | 1 | 2–5 min | BE1.1 cards 2–5 (carry-over 2026-08-22) | 2026-08-22 |
 
 ### How to invoke
 
