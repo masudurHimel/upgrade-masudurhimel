@@ -20,7 +20,7 @@ BE6 Capacity & failure   [░░░░░░░░░░░░░░░░░░
 ─────────────────────────────────────────────────
 TOTAL                    [░░░░░░░░░░░░░░░░░░░░]   0%   (0/42 topics)
 
-Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0
+Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0 topics (1 card)
 ```
 
 **Next up:** BE1.1 cards 2–5 — DNS name→address, opening the socket, what goes on the wire, full chain + edge cases (carry-over from 2026-08-22). Learning day 1 done; **learning day 3 = review day**.
@@ -40,7 +40,7 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0
 ---
 
 ## BE1 — The request leaves the client
-- [~] BE1.1 What "making a request" actually means — URL → resolution → socket *(card 1/5 taught 2026-08-22; teach-back pending)*
+- [~] BE1.1 What "making a request" actually means — URL → resolution → socket *(card 1/5 ✓ teach-back passed 2026-08-22; cards 2–5 parked)*
 - [ ] BE1.2 DNS resolution — recursive lookup, caching, TTL
 - [ ] BE1.3 TCP connection setup — 3-way handshake
 - [ ] BE1.4 TLS handshake — what's negotiated, session resumption
@@ -108,7 +108,7 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0
 ## Session log
 | Date | Topics covered | Cards | Notes |
 |------|----------------|-------|-------|
-| 2026-08-22 | BE1.1 card 1/5 — a URL is four instructions for four layers; network needs only IP + port | 1 | Learning day 1. 2-min box → partial `[~]`, 4 cards parked. Teach-back asked (why the kernel can't use a hostname). Rubric baseline requested. |
+| 2026-08-22 | BE1.1 card 1/5 — a URL is four instructions for four layers; network needs only IP + port | 1 | Learning day 1. 2-min box → partial `[~]`, 4 cards parked. Teach-back **passed** — got IP + port correct; added the *why* (names resolve in userspace via `getaddrinfo`; `connect()` takes 4-byte IP + 2-byte port). Rubric baseline still awaited. |
 
 ---
 
