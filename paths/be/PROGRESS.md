@@ -1,7 +1,7 @@
 # 📊 Progress Tracker — Backend Engineering Deep Dive
 
 > **Path:** `be` — teach command **`/teach-be`** · **Status:** active (not the default path)
-> **Created:** 2026-08-22 · **Checkpoint:** ~2026-10-24 · **Last updated:** 2026-08-22 (learning day 1)
+> **Created:** 2026-08-22 · **Checkpoint:** ~2026-10-24 · **Last updated:** 2026-08-23 (learning day 2)
 > **Session default:** 2–5 min · **Review cadence:** every 3rd learning day *of this path*
 > **Plan:** [ROADMAP.md](ROADMAP.md) · **Registry:** [../../PATHS.md](../../PATHS.md)
 > **Independent state:** this path's counters, buckets, tests, and rubric are its own. `default`'s buckets never block a session here.
@@ -20,10 +20,10 @@ BE6 Capacity & failure   [░░░░░░░░░░░░░░░░░░
 ─────────────────────────────────────────────────
 TOTAL                    [░░░░░░░░░░░░░░░░░░░░]   0%   (0/42 topics)
 
-Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0 topics (1 card)
+Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0 topics (2 cards)
 ```
 
-**Next up:** BE1.1 cards 2–5 — DNS name→address, opening the socket, what goes on the wire, full chain + edge cases (carry-over from 2026-08-22). Learning day 1 done; **learning day 3 = review day**.
+**Next up:** BE1.1 cards 3–5 — opening the socket, what goes on the wire, full chain + edge cases (carry-over from 2026-08-22). Learning day 2 done; **next session = learning day 3 = REVIEW DAY**.
 
 **Rubric baseline:** set 2026-08-22, **avg 2.6** (coach-estimated at his request — 3/3/2/2/3). Weakest line: capacity & sizing.
 
@@ -35,12 +35,12 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0 topic
 
 | Date | Topic | Cards left | Status |
 |------|-------|-----------|--------|
-| 2026-08-22 | BE1.1 What "making a request" actually means | 4 — (2) DNS name→address · (3) opening the socket: IP+port, connection object · (4) what actually goes on the wire (request line + headers) · (5) full chain end-to-end + edge cases | **open** |
+| 2026-08-22 | BE1.1 What "making a request" actually means | 3 — (3) opening the socket: IP+port, connection object · (4) what actually goes on the wire (request line + headers) · (5) full chain end-to-end + edge cases | **open** |
 
 ---
 
 ## BE1 — The request leaves the client
-- [~] BE1.1 What "making a request" actually means — URL → resolution → socket *(card 1/5 ✓ teach-back passed 2026-08-22; cards 2–5 parked)*
+- [~] BE1.1 What "making a request" actually means — URL → resolution → socket *(cards 1–2/5 ✓ teach-back passed 2026-08-22, 2026-08-23; cards 3–5 parked)*
 - [ ] BE1.2 DNS resolution — recursive lookup, caching, TTL
 - [ ] BE1.3 TCP connection setup — 3-way handshake
 - [ ] BE1.4 TLS handshake — what's negotiated, session resumption
@@ -109,6 +109,7 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0 topic
 | Date | Topics covered | Cards | Notes |
 |------|----------------|-------|-------|
 | 2026-08-22 | BE1.1 card 1/5 — a URL is four instructions for four layers; network needs only IP + port | 1 | Learning day 1. 2-min box → partial `[~]`, 4 cards parked. Teach-back **passed** — got IP + port correct; added the *why* (names resolve in userspace via `getaddrinfo`; `connect()` takes 4-byte IP + 2-byte port). Rubric baseline still awaited. |
+| 2026-08-23 | BE1.1 card 2/5 — DNS: name → address (`getaddrinfo`, resolver, TTL, caching) | 1 | Learning day 2. 2-min box → 1 card, 3 still parked. Self-check 2/3: ✓ lookup happens in-process; ✓ first call slow (worded as "no caching" → corrected to **cold cache**); ✗ stale-IP cause answered "TTL" → corrected with contrast (same TTL, one client re-resolves and recovers, one cached the IP at startup and needs a restart). **Teach-back passed** — derived DNS necessity from card 1 (`connect()` takes 4-byte IP + 2-byte port, knows no names) and named the cache path. ⚠️ Resurface on day 3 review: *client-side IP caching vs TTL*. |
 
 ---
 
