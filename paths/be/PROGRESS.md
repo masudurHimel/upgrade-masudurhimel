@@ -1,7 +1,7 @@
 # 📊 Progress Tracker — Backend Engineering Deep Dive
 
 > **Path:** `be` — teach command **`/teach-be`** · **Status:** active (not the default path)
-> **Created:** 2026-08-22 · **Checkpoint:** ~2026-10-24 · **Last updated:** 2026-08-23 (learning day 2)
+> **Created:** 2026-08-22 · **Checkpoint:** ~2026-10-24 · **Last updated:** 2026-08-23 (learning day 3 — review day)
 > **Session default:** 2–5 min · **Review cadence:** every 3rd learning day *of this path*
 > **Plan:** [ROADMAP.md](ROADMAP.md) · **Registry:** [../../PATHS.md](../../PATHS.md)
 > **Independent state:** this path's counters, buckets, tests, and rubric are its own. `default`'s buckets never block a session here.
@@ -23,7 +23,7 @@ TOTAL                    [░░░░░░░░░░░░░░░░░░
 Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0 topics (2 cards)
 ```
 
-**Next up:** BE1.1 cards 3–5 — opening the socket, what goes on the wire, full chain + edge cases (carry-over from 2026-08-22). Learning day 2 done; **next session = learning day 3 = REVIEW DAY**.
+**Next up:** clear both open buckets — BE1.1 cards 3–5 (socket, wire bytes, full chain), which also carry the two 2026-08-23 review misses. Learning day 3 (review) done; **learning day 6 = next review day**.
 
 **Rubric baseline:** set 2026-08-22, **avg 2.6** (coach-estimated at his request — 3/3/2/2/3). Weakest line: capacity & sizing.
 
@@ -36,6 +36,7 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0 topic
 | Date | Topic | Cards left | Status |
 |------|-------|-----------|--------|
 | 2026-08-22 | BE1.1 What "making a request" actually means | 3 — (3) opening the socket: IP+port, connection object · (4) what actually goes on the wire (request line + headers) · (5) full chain end-to-end + edge cases | **open** |
+| 2026-08-23 | Day-3 review misses (BE1.1 cards 1–2) | 2 — (a) path/query are HTTP bytes sent *after* connect, not addressing info — the `connect()` boundary · (b) TTL migration play: lower TTL days *in advance*, raise after · both land inside parked card 4 | **open** |
 
 ---
 
@@ -110,6 +111,7 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0 topic
 |------|----------------|-------|-------|
 | 2026-08-22 | BE1.1 card 1/5 — a URL is four instructions for four layers; network needs only IP + port | 1 | Learning day 1. 2-min box → partial `[~]`, 4 cards parked. Teach-back **passed** — got IP + port correct; added the *why* (names resolve in userspace via `getaddrinfo`; `connect()` takes 4-byte IP + 2-byte port). Rubric baseline still awaited. |
 | 2026-08-23 | BE1.1 card 2/5 — DNS: name → address (`getaddrinfo`, resolver, TTL, caching) | 1 | Learning day 2. 2-min box → 1 card, 3 still parked. Self-check 2/3: ✓ lookup happens in-process; ✓ first call slow (worded as "no caching" → corrected to **cold cache**); ✗ stale-IP cause answered "TTL" → corrected with contrast (same TTL, one client re-resolves and recovers, one cached the IP at startup and needs a restart). **Teach-back passed** — derived DNS necessity from card 1 (`connect()` takes 4-byte IP + 2-byte port, knows no names) and named the cache path. ⚠️ Resurface on day 3 review: *client-side IP caching vs TTL*. |
+| 2026-08-23 | 🔁 **Day-3 REVIEW** — BE1.1 cards 1–2, 4 applied questions | — | Second session of the same calendar date (learning day 3). **2 clean / 2 incomplete.** ✓ Q1 stale-IP: diagnosed cached IP, correctly rejected the TTL bait (the flagged day-2 miss is **cleared**) — re-taught the *tell* (a restart fixes it). ✓ Q2: DNS time hides inside the supplier span. ~ Q3: said `connect()` uses the hostname as 4 bytes → re-taught that the name dies in userspace after `getaddrinfo`; skipped where path/query go → **bucketed**. ~ Q4: trade-off right, action missing → re-taught *lower TTL in advance, raise after* → **bucketed**. Closing teach-back **passed**: 1 DNS lookup + 2 `connect()` (correct for scope; forward-linked to BE1.6 keep-alive where the minimum is 1). Fixed "connect gets IP from cache" → the resolver cache serves *names*. |
 
 ---
 
