@@ -18,7 +18,7 @@
 | Slug | Teach command | Name | Status | Topics ✓ | Learning days | Session default | Next up | Last session |
 |---|---|---|---|---|---|---|---|---|
 | `default` | `/teach` | Staff Engineer (3-month) | **active · DEFAULT** | 11/71 | 26 | 2–5 min | M1.11 final card — offloading blocking calls (`asyncio.to_thread`) | 2026-08-22 |
-| `be` | `/teach-be` | Backend Engineering Deep Dive | active | 0/42 | 3 | 2–5 min | BE1.1 cards 3–5 — clears both buckets (2026-08-22 + day-3 review misses) | 2026-08-23 |
+| `be` | `/teach-be` | Backend Engineering Deep Dive | active | 0/42 | 4 | 2–5 min | BE1.1 cards 4–5 — wire bytes + full chain (carries TTL-migration + refused/timeout buckets) | 2026-08-24 |
 
 ### How to invoke
 
