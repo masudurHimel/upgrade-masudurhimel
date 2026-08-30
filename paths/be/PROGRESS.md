@@ -1,7 +1,7 @@
 # 📊 Progress Tracker — Backend Engineering Deep Dive
 
 > **Path:** `be` — teach command **`/teach-be`** · **Status:** active (not the default path)
-> **Created:** 2026-08-22 · **Checkpoint:** ~2026-10-24 · **Last updated:** 2026-08-26 (learning day 6)
+> **Created:** 2026-08-22 · **Checkpoint:** ~2026-10-24 · **Last updated:** 2026-08-30 (learning day 7)
 > **Session default:** 2–5 min · **Review cadence:** every 3rd learning day *of this path*
 > **Plan:** [ROADMAP.md](ROADMAP.md) · **Registry:** [../../PATHS.md](../../PATHS.md)
 > **Independent state:** this path's counters, buckets, tests, and rubric are its own. `default`'s buckets never block a session here.
@@ -11,19 +11,19 @@
 ## Overall progress
 
 ```
-BE1 Client → request     [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics · BE1.1 [~] 4/5 cards)
+BE1 Client → request     [███░░░░░░░░░░░░░░░░░]  14%   (1/7 topics · BE1.1 [✓] 5/5 cards)
 BE2 Reaching the server  [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics)
 BE3 Accepting the conn   [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics)
 BE4 The framework        [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics)
 BE5 Processes & workers  [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics)
 BE6 Capacity & failure   [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics)
 ─────────────────────────────────────────────────
-TOTAL                    [░░░░░░░░░░░░░░░░░░░░]   0%   (0/42 topics)
+TOTAL                    [█░░░░░░░░░░░░░░░░░░░]   2%   (1/42 topics)
 
-Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0 topics (4 cards)
+Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   1 topic (5 cards)
 ```
 
-**Next up:** BE1.1 card 5/5 — the full chain end-to-end + edge cases (last parked card; clears the 2026-08-22 bucket and flips BE1.1 to `[✓]`), plus the open **request-line ordering** bucket. Learning day 6 (review) done; **next review = day 9**.
+**Next up:** BE1.2 — DNS resolution: recursive lookup, caching, TTL. **All buckets clear.** Learning day 7 done; **next review = day 9** (2 learning days away).
 
 **Rubric baseline:** set 2026-08-22, **avg 2.6** (coach-estimated at his request — 3/3/2/2/3). Weakest line: capacity & sizing.
 
@@ -35,15 +35,17 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0 topic
 
 | Date | Topic | Cards left | Status |
 |------|-------|-----------|--------|
-| 2026-08-22 | BE1.1 What "making a request" actually means | 1 — ~~(4) what actually goes on the wire (request line + headers)~~ **cleared 2026-08-26** · (5) full chain end-to-end + edge cases | **open** |
+| ~~2026-08-22~~ | ~~BE1.1 What "making a request" actually means~~ | ~~(4) what goes on the wire — cleared 2026-08-26 · (5) full chain end-to-end + edge cases~~ | **✅ closed 2026-08-30** |
 | ~~2026-08-23~~ | ~~Day-3 review misses (BE1.1 cards 1–2)~~ | ~~(a) `connect()` boundary — cleared 2026-08-24 · (b) TTL migration play — cleared 2026-08-26~~ | **✅ closed 2026-08-26** |
 | ~~2026-08-24~~ | ~~Card-3 self-check miss~~ | ~~refused vs connect-timeout vs read-timeout — read the *latency of the failure*, not the word~~ | **✅ closed 2026-08-26** (day-6 review, 3/3) |
-| 2026-08-26 | Card-4 teach-back omission | 1 — the **request line** (`METHOD path?query HTTP/1.1`) is written *before* the headers; it is where path/query finally hit the wire. `Host` → server block, path → location/upstream | **open** — not reached in the 1-min day-6 box; resurface next session |
+| ~~2026-08-26~~ | ~~Card-4 teach-back omission~~ | ~~request line before headers; where path/query hit the wire~~ | **✅ closed 2026-08-30** (folded into card 5) |
+
+> **No open buckets.** ✅
 
 ---
 
 ## BE1 — The request leaves the client
-- [~] BE1.1 What "making a request" actually means — URL → resolution → socket *(cards 1–4/5 ✓ teach-back passed 2026-08-22 → 2026-08-26; card 5 parked)*
+- [✓] BE1.1 What "making a request" actually means — URL → resolution → socket *(all 5 cards ✓ teach-back passed, 2026-08-22 → 2026-08-30)*
 - [ ] BE1.2 DNS resolution — recursive lookup, caching, TTL
 - [ ] BE1.3 TCP connection setup — 3-way handshake
 - [ ] BE1.4 TLS handshake — what's negotiated, session resumption
@@ -117,6 +119,7 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   0 topic
 | 2026-08-24 | BE1.1 card 3/5 — opening the socket: `connect(fd, IP, port)`, the fd, the 4-tuple, ephemeral ports | 1 | Learning day 4. 2-min box → 1 card, 2 still parked. Folded in review miss (a): `connect()` carries **only** 4-byte IP + 2-byte port — path/query/headers/TLS are bytes written *after* → **cleared**. Side-questions he raised (both good): source port is the random/ephemeral one (dest stays 443) → `TIME_WAIT` + ~28k range ⇒ port exhaustion, fix is keep-alive/pooling (forward-link BE1.6); and asked whether TLS is covered later → yes, BE1.4 + BE2.6. Self-check 2/3: ✓ Q1 only IP+443; ✗ Q2 **flipped** refused↔timeout (called refused a "network issue" and timeout "connected but slow") → re-taught with the three-state contrast, **bucketed**; ✓ Q3 L4 can't read the path. **Teach-back passed** — `connect(fd,ip,port)`, nginx accepts blind with no application data, path arrives as bytes after. Polished: nginx *accepts* not connects; it does see the 4-tuple (→ BE2.7 `X-Forwarded-For`); first bytes on 443 are TLS (→ BE1.4). |
 | 2026-08-26 | BE1.1 card 4/5 — what actually goes on the wire: request line, headers, `Host`, SNI | 1 | Learning day 5. 2-min box → 1 card, 1 still parked. Folded in review miss (b): **TTL migration play** — lower TTL days *in advance*, flip, settle, restore; safe because only the IP moves while `Host:` stays identical → **cleared**, closing the 2026-08-23 bucket. Self-check **3/3**: ✓ Q1 `Host` (sharpened → matched against `server_name`); ✓ Q2 TTL play *with* the why ("old value is already cached"); ✓ Q3 SNI picks the cert, `Host` picks the route. **Teach-back passed** — pipe → client writes → blank line → body → routes on `Host`. Polished: the **request line comes first**, before any header, and is where path/query reach the wire → **bucketed** for day-6. Forward-links: BE1.4 (TLS/SNI), BE2.6 (nginx server blocks), BE2.7 (`X-Forwarded-For`). |
 | 2026-08-26 | 🔁 **Day-6 REVIEW** — 1 applied question (bucket 2026-08-24) | — | Learning day 6, second session of the same calendar date. **1-min box → 1 question**, so only the oldest bucket was reached. Q1 three-night failure triad (refused 8ms / connect-timeout 10s / read-timeout 30s): **3/3** — read all three by the *latency*, not the word: A app down, B never established ("the network swallowed it"), C connected + request received + no response. The flipped refused↔timeout miss from 2026-08-24 is **cleared**. Polished one imprecision: on a refused **no connection is ever created** — the SYN arrives and the box's *kernel* answers `RST` ("nothing listening on 443"), which is why it's fast; corrective contrast → a connection that opens and *then* dies gives `ReadTimeout`/mid-request reset (night C's family), never `ConnectionRefused`. Tell restated: fast failure ⇒ reachable but nothing listening · slow silence ⇒ never reached · fast connect + slow silence ⇒ alive but stuck. Not reached: the 2026-08-26 request-line bucket. |
+| 2026-08-30 | BE1.1 card 5/5 — the full chain end-to-end: 5 steps, SNI vs `Host` vs path, edge cases | 1 | Learning day 7. 2-min box → 1 card; **BE1.1 now `[✓]` — first topic complete on this path.** Folded in the 2026-08-26 bucket (request line before headers) — **cleared**. Self-check 1.5/2: ✓ Q1 path first exists at step 5, L7 can't route earlier → sharpened that the name reaches the server **twice** (SNI at step 4, `Host:` header at step 5) — `Host` is *not* early, it lands in the same write as the path; ~ Q2 SNI-was-right correct, 404 cause loose → corrective contrast: wrong **path** + right `Host` = 404 *from your API*; wrong **`Host`** = you never reach your server block, you get the **default server** (404 from a different site). Tell: check *which* vhost logged it. **Teach-back passed** — all 5 steps in order (parse → DNS → socket → TLS → send), polished step 5 to request line → headers → blank line → body. Forward-links: BE1.2 (DNS depth), BE1.4 (TLS/SNI), BE2.3 (why L4 can't see the path), BE2.6 (`server_name`/`location`). |
 
 ---
 

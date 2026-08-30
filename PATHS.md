@@ -18,7 +18,7 @@
 | Slug | Teach command | Name | Status | Topics ✓ | Learning days | Session default | Next up | Last session |
 |---|---|---|---|---|---|---|---|---|
 | `default` | `/teach` | Staff Engineer (3-month) | **active · DEFAULT** | 11/71 | 26 | 2–5 min | M1.11 final card — offloading blocking calls (`asyncio.to_thread`) | 2026-08-22 |
-| `be` | `/teach-be` | Backend Engineering Deep Dive | active | 0/42 | 6 | 2–5 min | BE1.1 card 5 — full chain end-to-end (open bucket: request-line ordering) · next review = day 9 | 2026-08-26 |
+| `be` | `/teach-be` | Backend Engineering Deep Dive | active | 1/42 | 7 | 2–5 min | BE1.2 — DNS resolution: recursive lookup, caching, TTL (no open buckets) · next review = day 9 | 2026-08-30 |
 
 ### How to invoke
 
