@@ -18,7 +18,7 @@
 | Slug | Teach command | Name | Status | Topics ✓ | Learning days | Session default | Next up | Last session |
 |---|---|---|---|---|---|---|---|---|
 | `default` | `/teach` | Staff Engineer (3-month) | **active · DEFAULT** | 11/71 | 26 | 2–5 min | M1.11 final card — offloading blocking calls (`asyncio.to_thread`) | 2026-08-22 |
-| `be` | `/teach-be` | Backend Engineering Deep Dive | active | 1/42 | 13 | 2–5 min | BE1.2 card 5 — edge cases + staff lens (last of bucket 2026-09-02, closes BE1.2) · next review day 15 (resurface: TTL-expiry-as-self-recovery 2nd miss · stale cache ⇒ old-IP success, never NXDOMAIN) | 2026-09-19 |
+| `be` | `/teach-be` | Backend Engineering Deep Dive | active | 2/42 | 14 | 2–5 min | 🔁 Day-15 REVIEW (resurface: TTL-expiry-as-self-recovery 2nd miss · stale cache ⇒ old-IP success, never NXDOMAIN) · then BE1.3 TCP 3-way handshake | 2026-09-20 |
 
 ### How to invoke
 

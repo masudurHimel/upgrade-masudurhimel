@@ -1,7 +1,7 @@
 # 📊 Progress Tracker — Backend Engineering Deep Dive
 
 > **Path:** `be` — teach command **`/teach-be`** · **Status:** active (not the default path)
-> **Created:** 2026-08-22 · **Checkpoint:** ~2026-10-24 · **Last updated:** 2026-09-19 (learning day 13)
+> **Created:** 2026-08-22 · **Checkpoint:** ~2026-10-24 · **Last updated:** 2026-09-20 (learning day 14)
 > **Session default:** 2–5 min · **Review cadence:** every 3rd learning day *of this path*
 > **Plan:** [ROADMAP.md](ROADMAP.md) · **Registry:** [../../PATHS.md](../../PATHS.md)
 > **Independent state:** this path's counters, buckets, tests, and rubric are its own. `default`'s buckets never block a session here.
@@ -11,19 +11,19 @@
 ## Overall progress
 
 ```
-BE1 Client → request     [███░░░░░░░░░░░░░░░░░]  14%   (1/7 topics · BE1.1 [✓] · BE1.2 [~] 4/5 cards)
+BE1 Client → request     [██████░░░░░░░░░░░░░░]  29%   (2/7 topics · BE1.1 [✓] · BE1.2 [✓])
 BE2 Reaching the server  [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics)
 BE3 Accepting the conn   [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics)
 BE4 The framework        [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics)
 BE5 Processes & workers  [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics)
 BE6 Capacity & failure   [░░░░░░░░░░░░░░░░░░░░]   0%   (0/7 topics)
 ─────────────────────────────────────────────────
-TOTAL                    [█░░░░░░░░░░░░░░░░░░░]   2%   (1/42 topics)
+TOTAL                    [█░░░░░░░░░░░░░░░░░░░]   5%   (2/42 topics)
 
-Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   1 topic + 1 partial (9 cards)
+Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   2 topics (10 cards)
 ```
 
-**Next up:** BE1.2 card 5 — edge cases + staff lens (negative caching, K8s `ndots`), the last card of the 2026-09-02 bucket — closing it flips BE1.2 to `[✓]`. Next review: **day 15** (two sessions away). Day-15 review must resurface: (1) *TTL expiry as the self-recovery mechanism* (missed day 10 AND day 12 — needs one clean unprompted pass); (2) *stale cache ⇒ old-IP success, never NXDOMAIN* — a cache stores answers; other-name success only proves the resolver is alive (flagged day 13).
+**Next up:** 🔁 **Day-15 REVIEW** — next session IS the review day. Must resurface: (1) *TTL expiry as the self-recovery mechanism* (missed day 10 AND day 12 — needs one clean unprompted pass); (2) *stale cache ⇒ old-IP success, never NXDOMAIN* — a cache stores answers; other-name success only proves the resolver is alive (flagged day 13). No open buckets — all clear. After the review: BE1.3 TCP connection setup (3-way handshake).
 
 **Rubric baseline:** set 2026-08-22, **avg 2.6** (coach-estimated at his request — 3/3/2/2/3). Weakest line: capacity & sizing.
 
@@ -40,7 +40,7 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   1 topic
 | ~~2026-08-24~~ | ~~Card-3 self-check miss~~ | ~~refused vs connect-timeout vs read-timeout — read the *latency of the failure*, not the word~~ | **✅ closed 2026-08-26** (day-6 review, 3/3) |
 | ~~2026-08-26~~ | ~~Card-4 teach-back omission~~ | ~~request line before headers; where path/query hit the wire~~ | **✅ closed 2026-08-30** (folded into card 5) |
 
-| 2026-09-02 | BE1.2 DNS resolution | ~~(2) caching at every layer — cleared 2026-09-05~~ · ~~(3) TTL mechanics & trade-offs — cleared 2026-09-06~~ · ~~(4) record types + failure modes — cleared 2026-09-19~~ · (5) edge cases + staff lens (negative caching, K8s `ndots`) | **OPEN** |
+| ~~2026-09-02~~ | ~~BE1.2 DNS resolution~~ | ~~(2) caching at every layer — cleared 2026-09-05 · (3) TTL mechanics & trade-offs — cleared 2026-09-06 · (4) record types + failure modes — cleared 2026-09-19 · (5) edge cases + staff lens (negative caching, K8s `ndots`) — cleared 2026-09-20~~ | **✅ closed 2026-09-20** — BE1.2 `[✓]` |
 | ~~2026-09-05~~ | ~~Day-9 review miss (Q2)~~ | ~~404 diagnosis: wrong path = 404 from your app vs wrong `Host` = default server answers~~ | **✅ closed 2026-09-05** (same-session teach-back: check your app's access log — present ⇒ path, absent ⇒ Host/`server_name`) |
 | ~~2026-09-13~~ | ~~Day-12 review miss (Q1)~~ | ~~TTL expiry as self-recovery: pool churn = *when* a lookup runs, TTL expiry = *what answer* it gets — a new connection with an unexpired cache still gets the old IP~~ | **✅ closed 2026-09-13** (same-session teach-back: with TTL 24h a pod only flips when *its own* cached copy expires — per-cache clocks ⇒ pods flip at different moments; 2nd miss ⇒ resurface again day-15) |
 
@@ -48,7 +48,7 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   1 topic
 
 ## BE1 — The request leaves the client
 - [✓] BE1.1 What "making a request" actually means — URL → resolution → socket *(all 5 cards ✓ teach-back passed, 2026-08-22 → 2026-08-30)*
-- [~] BE1.2 DNS resolution — recursive lookup, caching, TTL *(cards 1–4/5 ✓ — recursive lookup chain 2026-09-02 · caching at every layer 2026-09-05 · TTL mechanics 2026-09-06 · record types + failure triad 2026-09-19; card 5 in bucket)*
+- [✓] BE1.2 DNS resolution — recursive lookup, caching, TTL *(all 5 cards ✓ teach-back passed, 2026-09-02 → 2026-09-20 — recursive lookup chain · caching at every layer · TTL mechanics · record types + failure triad · negative caching + `ndots`)*
 - [ ] BE1.3 TCP connection setup — 3-way handshake
 - [ ] BE1.4 TLS handshake — what's negotiated, session resumption
 - [ ] BE1.5 HTTP request anatomy — methods, headers, body
@@ -115,6 +115,7 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   1 topic
 ## Session log
 | Date | Topics covered | Cards | Notes |
 |------|----------------|-------|-------|
+| 2026-09-20 | BE1.2 card 5/5 — negative caching (a *no* is an answer and gets cached too; negative TTL comes from the zone's SOA, ~30s–5min) + the K8s `ndots:5` trap (search-suffix amplification: 3–4 wasted NXDOMAIN queries per external lookup; fix = trailing dot or tune `ndots`) | 1 | Learning day 14. 2-min box → 1 card, closing the 2026-09-02 bucket → **BE1.2 `[✓]`**, second topic done on this path. Teach-back (promo.gozayaan.com two-pod scenario) **passed**: pod 1 cached the NXDOMAIN and serves the *no* from cache at 14:03; pod 2 asked fresh after the record existed; named **negative TTL** as what decides how long pod 1 stays broken. Polished: *where* the cached no lives — a shared CoreDNS negative cache would have broken pod 2 as well; the scenario works because the no sits in pod 1's own layer — same caching-at-every-layer rule as card 2. Staff lens shipped: "record first, consumers after" in deploy runbooks; check `ndots` amplification before scaling CoreDNS. Next session = **day-15 REVIEW** (resurface: TTL-expiry-as-self-recovery 2nd miss · stale cache ⇒ old-IP success, never NXDOMAIN). |
 | 2026-09-19 | BE1.2 card 4/5 — record types (A/AAAA/CNAME, per-link TTL on chains) + the failure triad: NXDOMAIN = confident "name doesn't exist" (instant) · SERVFAIL = resolver tried and broke · timeout = silence, resolver unreachable (~5s) | 1 | Learning day 13. 2-min box → 1 card from the 2026-09-02 bucket; card 5 still parked. Teach-back (instant NXDOMAIN on `payments.gozayaan.com`, other service fine): ✓ suspect the name/record (changed/deleted CNAME) not CoreDNS; ✓ SERVFAIL is what would implicate CoreDNS — sharpened: instant NXDOMAIN means the resolver *worked* (a broken resolver gives SERVFAIL or silence, never a confident no). ✗ Explained the other service's success via stale-CNAME-cache/TTL luck → corrective contrast: a cache stores **answers** — a stale entry yields old-IP *success*, it can never invent an NXDOMAIN; the other service works because it asks a **different name**, and its success only proves the resolver is alive. Core **passed** → card ✓. Previewed negative caching (a cached *no* — card 5). Same read-the-failure pattern as the day-6 refused/timeout triad. ⚠️ Resurface day-15: stale cache ⇒ old-IP success, never NXDOMAIN. |
 | 2026-08-22 | BE1.1 card 1/5 — a URL is four instructions for four layers; network needs only IP + port | 1 | Learning day 1. 2-min box → partial `[~]`, 4 cards parked. Teach-back **passed** — got IP + port correct; added the *why* (names resolve in userspace via `getaddrinfo`; `connect()` takes 4-byte IP + 2-byte port). Rubric baseline still awaited. |
 | 2026-08-23 | BE1.1 card 2/5 — DNS: name → address (`getaddrinfo`, resolver, TTL, caching) | 1 | Learning day 2. 2-min box → 1 card, 3 still parked. Self-check 2/3: ✓ lookup happens in-process; ✓ first call slow (worded as "no caching" → corrected to **cold cache**); ✗ stale-IP cause answered "TTL" → corrected with contrast (same TTL, one client re-resolves and recovers, one cached the IP at startup and needs a restart). **Teach-back passed** — derived DNS necessity from card 1 (`connect()` takes 4-byte IP + 2-byte port, knows no names) and named the cache path. ⚠️ Resurface on day 3 review: *client-side IP caching vs TTL*. |
