@@ -1,7 +1,7 @@
 # 📊 Progress Tracker — Backend Engineering Deep Dive
 
 > **Path:** `be` — teach command **`/teach-be`** · **Status:** active (not the default path)
-> **Created:** 2026-08-22 · **Checkpoint:** ~2026-10-24 · **Last updated:** 2026-09-22 (learning day 16)
+> **Created:** 2026-08-22 · **Checkpoint:** ~2026-10-24 · **Last updated:** 2026-09-23 (learning day 17)
 > **Session default:** 2–5 min · **Review cadence:** every 3rd learning day *of this path*
 > **Plan:** [ROADMAP.md](ROADMAP.md) · **Registry:** [../../PATHS.md](../../PATHS.md)
 > **Independent state:** this path's counters, buckets, tests, and rubric are its own. `default`'s buckets never block a session here.
@@ -20,10 +20,10 @@ BE6 Capacity & failure   [░░░░░░░░░░░░░░░░░░
 ─────────────────────────────────────────────────
 TOTAL                    [█░░░░░░░░░░░░░░░░░░░]   5%   (2/42 topics)
 
-Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   2 topics (11 cards)
+Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   2 topics (12 cards)
 ```
 
-**Next up:** **BE1.3 card 2/5 — kernel queues (SYN queue / accept queue)**, from the 2026-09-22 bucket. Day 17 = learning session; **day 18 = review day**.
+**Next up:** 🔁 **Day-18 REVIEW** (BE1.3 cards 1–2: handshake cost vs app time · the two kernel queues, full-vs-deep accept queue ⇒ night B vs night C). After it: **BE1.3 card 3/5 — sequence numbers & what's negotiated**, from the 2026-09-22 bucket.
 
 **Rubric baseline:** set 2026-08-22, **avg 2.6** (coach-estimated at his request — 3/3/2/2/3). Weakest line: capacity & sizing.
 
@@ -35,7 +35,7 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   2 topic
 
 | Date | Topic | Cards left | Status |
 |------|-------|-----------|--------|
-| **2026-09-22** | BE1.3 TCP 3-way handshake | (2) kernel queues — SYN queue / accept queue, before the app `accept()`s · (3) sequence numbers & what's negotiated · (4) failure modes — SYN retries, RST vs silence, half-open · (5) edge cases + staff lens — SYN flood, handshake cost at scale, TFO | **🟡 open** |
+| **2026-09-22** | BE1.3 TCP 3-way handshake | ~~(2) kernel queues — SYN queue / accept queue — cleared 2026-09-23~~ · (3) sequence numbers & what's negotiated · (4) failure modes — SYN retries, RST vs silence, half-open · (5) edge cases + staff lens — SYN flood, handshake cost at scale, TFO | **🟡 open** (3 cards left) |
 | ~~2026-08-22~~ | ~~BE1.1 What "making a request" actually means~~ | ~~(4) what goes on the wire — cleared 2026-08-26 · (5) full chain end-to-end + edge cases~~ | **✅ closed 2026-08-30** |
 | ~~2026-08-23~~ | ~~Day-3 review misses (BE1.1 cards 1–2)~~ | ~~(a) `connect()` boundary — cleared 2026-08-24 · (b) TTL migration play — cleared 2026-08-26~~ | **✅ closed 2026-08-26** |
 | ~~2026-08-24~~ | ~~Card-3 self-check miss~~ | ~~refused vs connect-timeout vs read-timeout — read the *latency of the failure*, not the word~~ | **✅ closed 2026-08-26** (day-6 review, 3/3) |
@@ -51,7 +51,7 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   2 topic
 ## BE1 — The request leaves the client
 - [✓] BE1.1 What "making a request" actually means — URL → resolution → socket *(all 5 cards ✓ teach-back passed, 2026-08-22 → 2026-08-30)*
 - [✓] BE1.2 DNS resolution — recursive lookup, caching, TTL *(all 5 cards ✓ teach-back passed, 2026-09-02 → 2026-09-20 — recursive lookup chain · caching at every layer · TTL mechanics · record types + failure triad · negative caching + `ndots`)*
-- [~] BE1.3 TCP connection setup — 3-way handshake *(card 1/5 ✓ 2026-09-22 — SYN/SYN-ACK/ACK, why three, connect() = 1 RTT; cards 2–5 in bucket)*
+- [~] BE1.3 TCP connection setup — 3-way handshake *(cards 1–2/5 ✓ 2026-09-22 → 2026-09-23 — SYN/SYN-ACK/ACK, why three, connect() = 1 RTT · SYN queue / accept queue, `accept()`, full-queue SYN drop; cards 3–5 in bucket)*
 - [ ] BE1.4 TLS handshake — what's negotiated, session resumption
 - [ ] BE1.5 HTTP request anatomy — methods, headers, body
 - [ ] BE1.6 Keep-alive & connection reuse
@@ -117,6 +117,7 @@ Artifacts (written)  0/3        Tests passed   0        Teach-back ✓   2 topic
 ## Session log
 | Date | Topics covered | Cards | Notes |
 |------|----------------|-------|-------|
+| 2026-09-23 | BE1.3 card 2/5 — kernel queues: **SYN queue** (half-done handshakes, waiting on the client's final ACK) → **accept queue / backlog** (finished connections the app hasn't `accept()`ed yet); `connect()` returns the moment a connection lands in the accept queue — the worker is never involved | 1 | Learning day 17. 2-min box → 1 card from the 2026-09-22 bucket; cards 3–5 still parked. Self-check **2/2**: ✓ Q1 connect OK ⇒ established + sitting in backlog, view not running, proves the accept queue had room; ✓ Q2 capped queue ⇒ handshakes dropped ⇒ connect timeout with server up (night B). **Teach-back passed** — both queues, `accept()` as the exit of queue 2, and "connect() is kernel↔kernel, the worker doesn't gossip with it" unprompted. Polished ×2: (a) queue 1 → queue 2 is triggered by the *client's final ACK arriving*, not the kernel working through the line; (b) on a full accept queue Linux drops the **SYN itself — no SYN-ACK is sent** (he said kernel SYN-ACKs then drops) ⇒ client retransmits SYN 1s/2s/4s ⇒ connect timeout = night B; rarer final-ACK-drop variant ⇒ client thinks connected ⇒ night C. Contrast shipped: busy workers + queue *deep* ⇒ fast connect then silence (C) · queue *full* ⇒ connect hangs (B). Staff lens: `ss -ltn` Recv-Q/Send-Q, `nstat` ListenOverflows/ListenDrops before blaming the network. Links back: day-6 triad (B vs C now mapped to queue state), BE1.3 card 1 (kernel answers the handshake). Forward: BE3.1 `listen(backlog)` / `somaxconn`, BE3.7 backpressure, BE5.4 shared listening socket across pre-fork workers. Next: **day-18 REVIEW**. |
 | 2026-09-22 | BE1.3 card 1/5 — the 3-way handshake: SYN / SYN-ACK / ACK, why exactly three (both sides must confirm both directions), `connect()` = where it happens and blocks ~1 RTT | 1 | Learning day 16. 2-min box → 1 card, cards 2–5 parked (new bucket 2026-09-22). Teach-back (connect 120ms vs provider's "we respond in 5ms") **passed**: both true — the 120ms is round-trip travel, not their processing. Polished: the provider's **app never runs during the handshake** — the kernel answers the SYN-ACK in ~µs, so ~all 120ms is distance; their 5ms is app processing of the HTTP request, a stopwatch that starts *after* `connect()` returns. Links back: BE1.1 card 3 (`connect(fd, ip, port)`; refused = RST to the SYN, connect-timeout = SYN got silence — day-6 triad now mapped to handshake steps). Forward-links: BE1.6 (reuse the connection ⇒ pay the RTT once), card 2 (kernel queues / `accept()`). Next: card 2; **day 18 = review**. |
 | 2026-09-21 | 🔁 **Day-15 REVIEW** — 2 applied questions (both flagged resurfaces) | — | Learning day 15. 2-min box → 2 questions. **1 clean / 1 miss→cleared.** ✓ Q1 supplier-IP-move self-recovery: the twice-missed item (day 10, day 12) finally **passed clean and unprompted** — pods held the old IP in cache, recovery = each pod's own TTL expiring, fresh lookup then gets the new IP. Polished: staggered recovery = per-cache clocks (countdown starts at *store* time); churn was firing lookups all along — when = churn, what = TTL. ✗ Q2 deleted-record scenario: inverted the direction — cited negative caching (the record-*creation* trap, wrong scenario) for A's NXDOMAIN and explained B's success as "first call at 14:20" → re-taught: a cache is a *photocopy of a real answer*; every pre-14:00 copy is positive, so stale ⇒ old-IP success, **never** NXDOMAIN; a cached *no* only exists after a real post-deletion no ⇒ A's NXDOMAIN proves deletion either way; a truly cold first call reaches authoritative and gets NXDOMAIN — B's success needs *some* warm layer (own process / CoreDNS / VPC) → **bucketed, cleared same session** (teach-back: C = stale positive cache, D = fresh query ⇒ deletion real; "positive caching" naming polished — normal caching *is* positive, negative is the special case). No resurfaces pending. Next: **BE1.3 TCP 3-way handshake**. |
 | 2026-09-20 | BE1.2 card 5/5 — negative caching (a *no* is an answer and gets cached too; negative TTL comes from the zone's SOA, ~30s–5min) + the K8s `ndots:5` trap (search-suffix amplification: 3–4 wasted NXDOMAIN queries per external lookup; fix = trailing dot or tune `ndots`) | 1 | Learning day 14. 2-min box → 1 card, closing the 2026-09-02 bucket → **BE1.2 `[✓]`**, second topic done on this path. Teach-back (promo.gozayaan.com two-pod scenario) **passed**: pod 1 cached the NXDOMAIN and serves the *no* from cache at 14:03; pod 2 asked fresh after the record existed; named **negative TTL** as what decides how long pod 1 stays broken. Polished: *where* the cached no lives — a shared CoreDNS negative cache would have broken pod 2 as well; the scenario works because the no sits in pod 1's own layer — same caching-at-every-layer rule as card 2. Staff lens shipped: "record first, consumers after" in deploy runbooks; check `ndots` amplification before scaling CoreDNS. Next session = **day-15 REVIEW** (resurface: TTL-expiry-as-self-recovery 2nd miss · stale cache ⇒ old-IP success, never NXDOMAIN). |
