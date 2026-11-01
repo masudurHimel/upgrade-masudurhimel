@@ -19,6 +19,7 @@
 |---|---|---|---|---|---|---|---|---|
 | `default` | `/teach` | Staff Engineer (3-month) | **active · DEFAULT** | 11/71 | 26 | 2–5 min | M1.11 final card — offloading blocking calls (`asyncio.to_thread`) | 2026-08-22 |
 | `be` | `/teach-be` | Backend Engineering Deep Dive | active | 2/42 | 17 | 2–5 min | 🔁 day-18 REVIEW (BE1.3 cards 1–2), then BE1.3 card 3 (bucket 2026-09-22, cards 3–5) | 2026-09-23 |
+| `rabbitmq` | `/teach-rabbitmq` | RabbitMQ — fundamentals to advanced edge cases | active | 0/44 | 0 | 10 min | RMQ1.1 Why a broker — RabbitMQ vs Kafka vs Redis Streams vs DB-as-queue | — |
 
 ### How to invoke
 
@@ -27,6 +28,7 @@
 | `/teach` | `default`, next in sequence |
 | `/teach-be [15 mins]` | `be`, next in sequence — **every path gets its own `/teach-<slug>`** |
 | `/teach be <topic>` · `/teach-be <topic>` | a specific topic inside `be` |
+| `/teach-rabbitmq [20 mins]` · `/teach-rabbitmq <topic>` | `rabbitmq`, next in sequence / a specific topic inside it |
 | `/progress be` · `/test_me be` · `/assess be` | those skills, scoped to `be` (shortcut as an argument) |
 | `/progress all` | roll-up of every path |
 | `/create_path [name]` | stand up a new path (also generates its `/teach-<slug>`) |
@@ -47,6 +49,7 @@ paths/<slug>/
 |---|---|
 | `staff`, `staff-eng`, `se` | `default` |
 | `backend`, `backend-deep-dive` | `be` |
+| `rmq`, `rabbit` | `rabbitmq` |
 
 Aliases are matched case-insensitively and ignore `-` / `_` / spaces, so `staff eng` → `staff-eng` → `default`.
 
@@ -55,7 +58,7 @@ Aliases are matched case-insensitively and ignore `-` / `_` / spaces, so `staff 
 ## Rules
 
 **Slugs** — kebab-case, unique across both slugs *and* aliases.
-**Reserved words** (never usable as a slug or alias): `default` (taken), `be` (taken), `all`, `path`, `topic`, `mins`, `minutes`.
+**Reserved words** (never usable as a slug or alias): `default` (taken), `be` (taken), `rabbitmq` (taken), `all`, `path`, `topic`, `mins`, `minutes`.
 **Status values** — `active` · `paused` · `archived`. Exactly one path carries the `DEFAULT` marker.
 
 **Creating a path** is never implicit. `/teach some-unknown-name` still means *new topic on the default path*.
