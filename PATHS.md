@@ -19,7 +19,7 @@
 |---|---|---|---|---|---|---|---|---|
 | `default` | `/teach` | Staff Engineer (3-month) | **active · DEFAULT** | 11/71 | 26 | 2–5 min | M1.11 final card — offloading blocking calls (`asyncio.to_thread`) | 2026-08-22 |
 | `be` | `/teach-be` | Backend Engineering Deep Dive | active | 2/42 | 17 | 2–5 min | 🔁 day-18 REVIEW (BE1.3 cards 1–2), then BE1.3 card 3 (bucket 2026-09-22, cards 3–5) | 2026-09-23 |
-| `rabbitmq` | `/teach-rabbitmq` | RabbitMQ — fundamentals to advanced edge cases | active | 0/44 | 1 | 10 min | RMQ1.1 card 3/5 — RabbitMQ vs Kafka (bucket 2026-11-08, cards 3–5); day 3 = first review | 2026-11-08 |
+| `rabbitmq` | `/teach-rabbitmq` | RabbitMQ — fundamentals to advanced edge cases | active | 0/44 | 2 | 10 min | 🔁 day-3 REVIEW (RMQ1.1 cards 1–4), then RMQ1.1 card 5/5 decision card (bucket 2026-11-08); teach-back on cards 3–4 owed | 2026-11-10 |
 
 ### How to invoke
 
