@@ -1,7 +1,7 @@
 # 📊 Progress Tracker — RabbitMQ
 
 > **Path:** `rabbitmq` — teach command **`/teach-rabbitmq`** · **Status:** active (not the default path)
-> **Created:** 2026-11-01 · **Checkpoint:** 2026-11-21 (progress checkpoint; path continues) · **Last updated:** 2026-11-10 (learning day 2)
+> **Created:** 2026-11-01 · **Checkpoint:** 2026-11-21 (progress checkpoint; path continues) · **Last updated:** 2026-11-10 (learning day 2 · teach-back closed 2026-11-11)
 > **Session default:** 10 min · **Cadence:** 3–4 sittings/week · **Review cadence:** every 3rd learning day *of this path*
 > **Plan:** [ROADMAP.md](ROADMAP.md) · **Registry:** [../../PATHS.md](../../PATHS.md)
 > **Independent state:** this path's counters, buckets, tests, and rubric are its own. No other path's buckets block a session here. No cross-links to `default` by choice.
@@ -24,7 +24,7 @@ TOTAL                     [░░░░░░░░░░░░░░░░░�
 Artifacts (build)  0/2        Tests passed   0        Teach-back ✓   0
 ```
 
-**Next up:** **🔁 day-3 REVIEW** (resurface RMQ1.1 cards 1–4: DB-table win = atomicity · `SKIP LOCKED` ⇒ no double-grab, fan-out ≠ duplicates · the commit-then-crash-before-publish gap · ack ↔ offset-commit ↔ `XACK` are the same loss/dup shape · what kills a Redis Streams entry), then **RMQ1.1 card 5/5 — decision card** from the 2026-11-08 bucket. Learning day 3. Teach-back on cards 3–4 still owed.
+**Next up:** **🔁 day-3 REVIEW** (resurface RMQ1.1 cards 1–4: DB-table win = atomicity · `SKIP LOCKED` ⇒ no double-grab, fan-out ≠ duplicates · the commit-then-crash-before-publish gap · ack ↔ offset-commit ↔ `XACK` are the same loss/dup shape · what kills a Redis Streams entry · **`MAXLEN` is a count, not a time** · Redis Streams *can* replay within the cap via `XRANGE`), then **RMQ1.1 card 5/5 — decision card** from the 2026-11-08 bucket. Learning day 3.
 
 **Rubric baseline:** set 2026-11-01, **avg 2.5** (self-scored 3/2/2/2/3/3). Weakest lines: delivery-guarantee reasoning, broker internals, operations & HA.
 
@@ -36,12 +36,12 @@ Artifacts (build)  0/2        Tests passed   0        Teach-back ✓   0
 
 | Date | Topic | Cards left | Status |
 |------|-------|-----------|--------|
-| **2026-11-08** | RMQ1.1 Why a broker | (5) Decision card — tool per GoZayaan flow + staff lens *(cards 3–4 taught 2026-11-10, teach-back pending)* | **🟡 open** (1 card left) |
+| **2026-11-08** | RMQ1.1 Why a broker | (5) Decision card — tool per GoZayaan flow + staff lens | **🟡 open** (1 card left) |
 
 ---
 
 ## RMQ1 — Foundations & the AMQP model
-- [~] RMQ1.1 Why a broker — RabbitMQ vs Kafka vs Redis Streams vs DB-as-queue *(cards 1–2 ✓ 2026-11-08; 3–4 taught 2026-11-10, teach-back pending; 5 parked)*
+- [~] RMQ1.1 Why a broker — RabbitMQ vs Kafka vs Redis Streams vs DB-as-queue *(cards 1–4 ✓ — 1–2 on 2026-11-08, 3–4 on 2026-11-10; 5 parked)*
 - [ ] RMQ1.2 Connections, channels, virtual hosts
 - [ ] RMQ1.3 Exchanges → bindings → queues: the routing pipeline; default exchange
 - [ ] RMQ1.4 Exchange types — direct, fanout, topic, headers
@@ -114,7 +114,7 @@ Artifacts (build)  0/2        Tests passed   0        Teach-back ✓   0
 |------|----------------|-------|-------|
 | 2026-11-01 | Path setup | — | Roadmap + tracker created via `/create_path`. Learning day 0. |
 | 2026-11-08 | RMQ1.1 cards 1–2/5 — (1) what a broker is: removes coupling in **time / speed / shape**; the spine — a message's location at every instant (publisher mem → wire → exchange → queue → wire → consumer mem → acked) and what kills or duplicates it at each arrow · (2) DB-as-queue: `SKIP LOCKED` polling table — its one real win is **atomic commit with business data**; breaks on polling load, UPDATE bloat, hot rows, no fan-out, stuck `running` rows; outbox = DB stage + broker fan-out | 2 | Learning day 1. 10-min box → 2 cards, 3 parked (bucket 2026-11-08). Self-check 5/7: ✓ three couplings; ✓ new risk = silent loss; ✗ DB-table unique win answered "duplicate probability" → re-taught: **atomicity** (he named it himself two answers later — wobbly, not absent); ✓ hottest table; ✗ "five workers → five duplicates" → corrective contrast: `SKIP LOCKED` means workers *skip* locked rows, zero duplicates — the real problem is **fan-out** (five consumer *types* ⇒ five rows per event), many workers on one job type is fine; ✓ stuck `running` row needs a lease + sweeper. **Teach-back passed (2026-11-10)**: sync HTTP = main service waits on all five and one 500 can fail the whole request; broker's new risk = silently dropping events; Postgres table for ~100 rpm email with atomicity + low volume; loss points wire / exchange / queue. Polished: the two biggest loss points he missed — **commit-then-crash-before-publish** (the dual-write gap, why outbox exists) and **consumer memory before ack**; a message never sits in an exchange — loss there = unroutable, dropped silently without `mandatory`. ⚠️ Resurface day-3 review: DB-table win = atomicity · `SKIP LOCKED` ⇒ no double-grab, fan-out ≠ duplicates · the commit→publish gap. Forward-links: RMQ2.1 acks, RMQ2.3 `mandatory`, RMQ2.5 duplicates, RMQ4.5 backlog memory, RMQ7.3 outbox. |
-| 2026-11-10 | RMQ1.1 cards 3–4/5 — (3) RabbitMQ vs Kafka: **queue = to-do list** (deliver → ack → delete; smart broker tracks per-message state; routing / TTL / DLX / priority built in; no replay) vs **log = diary** (append-only, kept by retention time; consumer keeps an offset bookmark; replay free; fan-out = another group's bookmark; but a poison message blocks its partition, consumers ≤ partitions). Same loss/dup shape — **ack ↔ offset commit** · (4) Redis Streams: a log **in RAM** with per-message pending tracking (`XADD` / `XREADGROUP` / `XACK`, PEL); killed by `MAXLEN` trim of unconsumed entries, restart with no/lagging AOF, async-replica failover; duplicated via PEL re-claim; no DLX, no requeue-on-disconnect — you write `XAUTOCLAIM` + delivery-count checks yourself | 2 | Learning day 2. 10-min box → cards 3–4 from the 2026-11-08 bucket; card 5 (decision card) still parked. **Teach-back on cards 3–4 pending.** Forward-links: RMQ2.1 acks, RMQ2.6 ordering, RMQ3.5 DLX, RMQ4.4 Streams, RMQ4.5 backlog alarms. |
+| 2026-11-10 | RMQ1.1 cards 3–4/5 — (3) RabbitMQ vs Kafka: **queue = to-do list** (deliver → ack → delete; smart broker tracks per-message state; routing / TTL / DLX / priority built in; no replay) vs **log = diary** (append-only, kept by retention time; consumer keeps an offset bookmark; replay free; fan-out = another group's bookmark; but a poison message blocks its partition, consumers ≤ partitions). Same loss/dup shape — **ack ↔ offset commit** · (4) Redis Streams: a log **in RAM** with per-message pending tracking (`XADD` / `XREADGROUP` / `XACK`, PEL); killed by `MAXLEN` trim of unconsumed entries, restart with no/lagging AOF, async-replica failover; duplicated via PEL re-claim; no DLX, no requeue-on-disconnect — you write `XAUTOCLAIM` + delivery-count checks yourself | 2 | Learning day 2. 10-min box → cards 3–4 from the 2026-11-08 bucket; card 5 (decision card) still parked. **Teach-back passed (2026-11-11)**: queue drops / log keeps until retention / stream keeps until `MAXLEN`; all six loss+dup cases named correctly (RMQ: broker crash before durable write · crash-before-ack; Kafka: auto-commit-then-crash · crash-before-commit; Redis: `MAXLEN` trim · crash-before-`XACK`). Polished: RabbitMQ deletes on **ack**, not on read; Redis Streams also replays within the cap (`XRANGE` / new group from `0`). ✗ Q3 "wrong when a time range is needed" → corrected: IDs are timestamps so `XRANGE` by time works; the real failure is **`MAXLEN` is a count, not a duration** (a burst day evicts older days) + no persistence ⇒ restart wipes the window. ⚠️ Resurface day 3. Forward-links: RMQ2.1 acks, RMQ2.6 ordering, RMQ3.5 DLX, RMQ4.4 Streams, RMQ4.5 backlog alarms. |
 
 ---
 
